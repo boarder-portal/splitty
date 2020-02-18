@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es2017",
+    "strict": true,
+    "outDir": "./dist",
+    "jsx": "react",
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "baseUrl": ".",
+    "paths": {
+      "server/*": ["./app/server/*"],
+      "client/*": ["./app/client/*"]
+    }
+  },
+  "include": [
+    "./app/**/*"
+  ]
+}
