@@ -10,7 +10,8 @@
     "baseUrl": ".",
     "paths": {
       "server/*": ["./app/server/*"],
-      "client/*": ["./app/client/*"]
+      "client/*": ["./app/client/*"],
+      "common/*": ["./app/common/*"]
     }
   },
   "include": [

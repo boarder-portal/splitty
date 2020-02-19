@@ -3,6 +3,7 @@ import 'regenerator-runtime/runtime';
 
 import React from 'react';
 import { render } from 'react-dom';
+import { BrowserRouter } from 'react-router-dom';
 import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from '@apollo/react-hooks';
 
@@ -10,7 +11,7 @@ import App from 'client/components/App/App';
 
 if ((module as any).hot) {
   (module as any).hot.accept(() => {
-    setTimeout(() => location.reload(), 300)
+    setTimeout(() => location.reload(), 300);
   });
 }
 
@@ -20,7 +21,9 @@ const client = new ApolloClient({
 
 render(
   <ApolloProvider client={client}>
-    <App />
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   </ApolloProvider>,
   document.querySelector('#root')
 );

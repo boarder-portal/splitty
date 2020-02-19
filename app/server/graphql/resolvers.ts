@@ -1,16 +1,27 @@
-const rooms = [{id: '1', users: ['a', 'b']}];
+import uuid from 'uuid/v4';
+
+import { IRoom } from 'common/types/room';
+
+const rooms: IRoom[] = [
+  {
+    id: '1',
+    users: ['a', 'b'],
+    link: uuid()
+  }
+];
 
 const resolvers = {
   Query: {
-    rooms() {
+    rooms(): IRoom[] {
       return rooms;
     }
   },
   Mutation: {
-    addRoom(parent: any, { users }: { users: string[] }): { id: string; users: string[]; } {
+    addRoom(parent: any, { users }: { users: string[] }): IRoom {
       const newRoom = {
         id: String(Date.now()),
-        users
+        users,
+        link: uuid()
       };
 
       rooms.push(newRoom);
