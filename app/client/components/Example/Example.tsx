@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 
-import { ADD_ROOM_QUERY, GET_ROOMS_QUERY } from 'client/graphql/queries';
+import { CREATE_ROOM_QUERY, GET_ROOMS_QUERY } from 'client/graphql/queries';
 
 interface IAppProps {
   className?: string;
@@ -27,14 +27,12 @@ const Example: React.FC<IAppProps> = (props) => {
   console.log({ roomsData, roomsLoading, roomsError });
 
   const [
-    addRoom, {
-      data: addRoomData,
-      loading: addRoomLoading,
-      error: addRoomError
+    createRoom, {
+      data: createRoomData,
+      loading: createRoomLoading,
+      error: createRoomError
     }
-  ] = useMutation(ADD_ROOM_QUERY);
-
-  console.log({ addRoomData, addRoomLoading, addRoomError });
+  ] = useMutation(CREATE_ROOM_QUERY);
 
   if (roomsLoading) {
     return (
@@ -56,7 +54,7 @@ const Example: React.FC<IAppProps> = (props) => {
         <div key={id}>{id}: {users.join(', ')}</div>
       ))}
 
-      <button onClick={() => addRoom({
+      <button onClick={() => createRoom({
         variables: {
           users: [Math.random().toFixed(2), Math.random().toFixed(2)]
         },

@@ -1,5 +1,5 @@
 export interface IRoom {
   id: string;
-  link: string;
+  title: string;
   users: string[];
 }

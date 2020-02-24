@@ -1,30 +1,89 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+import { useMutation } from '@apollo/react-hooks';
+
+import { CREATE_ROOM_QUERY } from 'client/graphql/queries';
+
+import { ICreateRoomParams } from 'server/graphql/resolvers';
+import { IRoom } from 'common/types/room';
 
 const Home: React.FC = () => {
-  const [roomName, setRoomName] = useState('');
+  const history = useHistory();
 
-  const handleRoomNameChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    setRoomName(e.target.value);
+  const [roomTitle, setRoomTitle] = useState('');
+  const [usersNames, setUsersNames] = useState(['', '']);
+
+  const [
+    createRoom,
+    {
+      data: newRoomData,
+      loading: createRoomLoading
+    }
+  ] = useMutation<{ createRoom: Pick<IRoom, 'id'> }, ICreateRoomParams>(CREATE_ROOM_QUERY);
+
+  const newRoomId = newRoomData?.createRoom.id;
+
+  const handleRoomTitleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setRoomTitle(e.target.value);
   }, []);
+
+  const handleUserNameChange = useCallback((userIndex: number, e: React.ChangeEvent<HTMLInputElement>) => {
+    setUsersNames([
+      ...usersNames.slice(0, userIndex),
+      e.target.value,
+      ...usersNames.slice(userIndex + 1)
+    ]);
+  }, [usersNames]);
 
   const handleCreateRoomClick = useCallback(() => {
-    console.log('Add room');
-  }, []);
+    createRoom({
+      variables: {
+        users: usersNames,
+        title: roomTitle
+      }
+    });
+  }, [createRoom, roomTitle, usersNames]);
+
+  useEffect(() => {
+    if (newRoomId) {
+      history.push(`/room/${newRoomId}`);
+    }
+  }, [history, newRoomId]);
 
   return (
     <div>
       <h1>Splity</h1>
 
       <div>
-        <div>Введите название комнаты (поезда, кафе)</div>
+        <div>Название комнаты (поездка, кафе)</div>
 
         <input
-          value={roomName}
-          onChange={handleRoomNameChange}
+          value={roomTitle}
+          onChange={handleRoomTitleChange}
         />
       </div>
 
-      <button onClick={handleCreateRoomClick}>Создать комнату</button>
+      <div>
+        <div>Имена участников</div>
+
+        {usersNames.map((name, index) => {
+          return (
+            <div key={index}>
+              <input
+                value={name}
+                onChange={handleUserNameChange.bind(null, index)}
+              />
+            </div>
+          );
+        })}
+      </div>
+
+      <button
+        onClick={handleCreateRoomClick}
+        disabled={createRoomLoading}
+      >
+        Создать комнату
+      </button>
     </div>
   );
 };

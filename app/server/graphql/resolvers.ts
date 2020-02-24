@@ -2,13 +2,12 @@ import uuid from 'uuid/v4';
 
 import { IRoom } from 'common/types/room';
 
-const rooms: IRoom[] = [
-  {
-    id: '1',
-    users: ['a', 'b'],
-    link: uuid()
-  }
-];
+const rooms: IRoom[] = [];
+
+export interface ICreateRoomParams {
+  title: string;
+  users: string[];
+}
 
 const resolvers = {
   Query: {
@@ -17,11 +16,11 @@ const resolvers = {
     }
   },
   Mutation: {
-    addRoom(parent: any, { users }: { users: string[] }): IRoom {
+    createRoom(parent: void, { title, users }: ICreateRoomParams): IRoom {
       const newRoom = {
-        id: String(Date.now()),
-        users,
-        link: uuid()
+        id: uuid(),
+        title,
+        users
       };
 
       rooms.push(newRoom);

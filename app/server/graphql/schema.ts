@@ -11,7 +11,7 @@ const typeDefs = gql`
   }
 
   type Mutation {
-    addRoom(users: [String!]!): Room!
+    createRoom(title: String!, users: [String!]!): Room!
   }
 `;
 

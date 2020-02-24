@@ -23,7 +23,7 @@ app
   .use(morgan('dev'))
   .use(express.static('build'))
   .use(express.static('public'))
-  .get('/', (req, res) => {
+  .get('*', (req, res) => {
     res.render('index');
   });
 
