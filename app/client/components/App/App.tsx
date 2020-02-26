@@ -2,7 +2,7 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
 import Home from 'client/components/Home/Home';
-import Room from 'client/components/Room';
+import Room from 'client/components/Room/Room';
 
 const App: React.FC = () => {
   return (

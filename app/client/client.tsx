@@ -11,7 +11,7 @@ import App from 'client/components/App/App';
 
 if ((module as any).hot) {
   (module as any).hot.accept(() => {
-    setTimeout(() => location.reload(), 300);
+    setTimeout(() => location.reload(), 400);
   });
 }
 

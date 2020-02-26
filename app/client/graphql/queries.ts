@@ -1,18 +1,47 @@
 import { gql } from 'apollo-boost';
 
-export const GET_ROOMS_QUERY = gql`
-  {
-    rooms {
+export const GET_ROOM_QUERY = gql`
+  query getRoom($roomId: String!) {
+    room(roomId: $roomId) {
       id
-      users
+      title
+      users {
+        id
+        name
+      }
+      costs {
+        id
+        value
+        from
+        to
+      }
     }
   }
 `;
 
 export const CREATE_ROOM_QUERY = gql`
-  mutation createRoom($title: String!, $users: [String!]!) {
-    createRoom(title: $title, users: $users) {
+  mutation createRoom($title: String!, $names: [String!]!) {
+    createRoom(title: $title, names: $names) {
       id
+    }
+  }
+`;
+
+export const ADD_ROOM_COST_QUERY = gql`
+  mutation addRoomCost($roomId: String!, $cost: CostInput!) {
+    addRoomCost(roomId: $roomId, cost: $cost) {
+      id
+      title
+      users {
+        id
+        name
+      }
+      costs {
+        id
+        value
+        from
+        to
+      }
     }
   }
 `;

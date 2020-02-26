@@ -38,7 +38,7 @@ const Home: React.FC = () => {
   const handleCreateRoomClick = useCallback(() => {
     createRoom({
       variables: {
-        users: usersNames,
+        names: usersNames,
         title: roomTitle
       }
     });
@@ -52,7 +52,7 @@ const Home: React.FC = () => {
 
   return (
     <div>
-      <h1>Splity</h1>
+      <h1>Splitty</h1>
 
       <div>
         <div>Название комнаты (поездка, кафе)</div>
