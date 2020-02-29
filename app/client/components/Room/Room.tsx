@@ -9,6 +9,7 @@ import { IRoom } from 'common/types/room';
 import RoomCosts from 'client/components/Room/RoomCosts/RoomCosts';
 import RoomUsers from 'client/components/Room/RoomUsers/RoomUsers';
 import RoomTransactions from 'client/components/Room/RoomTransactions/RoomTransactions';
+import RoomBalance from 'client/components/Room/RoomBalance/RoomBalance';
 
 interface IRouteParams {
   roomId: string;
@@ -59,6 +60,12 @@ const Room: React.FC = () => {
       <RoomTransactions
         roomId={roomId}
         users={users}
+        transactions={transactions}
+      />
+
+      <RoomBalance
+        users={users}
+        costs={costs}
         transactions={transactions}
       />
     </div>

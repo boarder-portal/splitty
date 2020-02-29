@@ -6,6 +6,8 @@ import { ADD_ROOM_TRANSACTION_QUERY } from 'client/graphql/queries';
 import { IRoom, ITransaction, IUser } from 'common/types/room';
 import { IAddRoomTransaction } from 'common/types/requestParams';
 
+import getUserNameById from 'client/utilities/getUserNameById';
+
 interface IRoomTransactionsProps {
   roomId: string;
   transactions: ITransaction[];
@@ -60,7 +62,7 @@ const RoomTransactions: React.FC<IRoomTransactionsProps> = (props) => {
 
         <div>
           {transactions.map((transaction) => (
-            <div key={transaction.id}>{`${transaction.value} руб. ${transaction.from} -> ${transaction.to}`}</div>
+            <div key={transaction.id}>{`${transaction.value} руб. ${getUserNameById(users, transaction.from)} -> ${getUserNameById(users, transaction.to)}`}</div>
           ))}
         </div>
       </div>

@@ -32,7 +32,8 @@
           "module",
           "/queries/",
           "/(/|^)types?(/|$)/",
-          "/components/",
+          "/utilities\\//",
+          "/components\\//",
           "/server\\//",
           ["parent", "sibling", "index"]
         ]

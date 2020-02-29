@@ -6,6 +6,8 @@ import { ADD_ROOM_COST_QUERY } from 'client/graphql/queries';
 import { ICost, IRoom, IUser } from 'common/types/room';
 import { IAddRoomCost } from 'common/types/requestParams';
 
+import getUserNameById from 'client/utilities/getUserNameById';
+
 interface IRoomCostsProps {
   roomId: string;
   costs: ICost[];
@@ -65,7 +67,7 @@ const RoomCosts: React.FC<IRoomCostsProps> = (props) => {
 
         <div>
           {costs.map((cost) => (
-            <div key={cost.id}>{`${cost.value} руб. ${cost.from} -> ${cost.to}`}</div>
+            <div key={cost.id}>{`${cost.value} руб. ${getUserNameById(users, cost.from)} -> ${cost.to.map((id) => getUserNameById(users, id)).join(', ')}`}</div>
           ))}
         </div>
       </div>
