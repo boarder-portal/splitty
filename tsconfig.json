@@ -7,6 +7,7 @@
     "jsx": "react",
     "sourceMap": true,
     "esModuleInterop": true,
+    "skipLibCheck": true,
     "baseUrl": ".",
     "paths": {
       "server/*": ["./app/server/*"],
@@ -16,5 +17,11 @@
   },
   "include": [
     "./app/**/*"
+  ],
+  "exclude": [
+    "**/node_modules/*",
+    "**/build/*",
+    "**/.cache/*",
+    "**/dist/*"
   ]
 }

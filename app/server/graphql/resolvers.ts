@@ -1,18 +1,9 @@
 import uuid from 'uuid/v4';
 
-import { ICost, IRoom } from 'common/types/room';
+import { IRoom } from 'common/types/room';
+import { IAddRoomCost, ICreateRoomParams } from 'common/types/requestParams';
 
 const rooms: IRoom[] = [];
-
-export interface ICreateRoomParams {
-  title: string;
-  names: string[];
-}
-
-export interface IAddRoomCost {
-  roomId: string;
-  cost: Omit<ICost, 'id'>;
-}
 
 const resolvers = {
   Query: {

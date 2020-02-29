@@ -4,8 +4,8 @@ import { useMutation } from '@apollo/react-hooks';
 
 import { CREATE_ROOM_QUERY } from 'client/graphql/queries';
 
-import { ICreateRoomParams } from 'server/graphql/resolvers';
 import { IRoom } from 'common/types/room';
+import { ICreateRoomParams } from 'common/types/requestParams';
 
 const Home: React.FC = () => {
   const history = useHistory();

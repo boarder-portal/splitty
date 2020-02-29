@@ -4,7 +4,7 @@ import { useMutation } from '@apollo/react-hooks';
 import { ADD_ROOM_COST_QUERY } from 'client/graphql/queries';
 
 import { ICost, IRoom, IUser } from 'common/types/room';
-import { IAddRoomCost } from 'server/graphql/resolvers';
+import { IAddRoomCost } from 'common/types/requestParams';
 
 interface IRoomCostsProps {
   roomId: string;
