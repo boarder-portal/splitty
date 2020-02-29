@@ -15,6 +15,12 @@ export const GET_ROOM_QUERY = gql`
         from
         to
       }
+      transactions {
+        id
+        value
+        from
+        to
+      }
     }
   }
 `;
@@ -42,6 +48,38 @@ export const ADD_ROOM_COST_QUERY = gql`
         from
         to
       }
+      transactions {
+        id
+        value
+        from
+        to
+      }
     }
   }
 `;
+
+export const ADD_ROOM_TRANSACTION_QUERY = gql`
+  mutation addRoomTransaction($roomId: String!, $transaction: TransactionInput!) {
+    addRoomTransaction(roomId: $roomId, transaction: $transaction) {
+      id
+      title
+      users {
+        id
+        name
+      }
+      costs {
+        id
+        value
+        from
+        to
+      }
+      transactions {
+        id
+        value
+        from
+        to
+      }
+    }
+  }
+`;
+

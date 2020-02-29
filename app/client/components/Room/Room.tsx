@@ -8,6 +8,7 @@ import { IRoom } from 'common/types/room';
 
 import RoomCosts from 'client/components/Room/RoomCosts/RoomCosts';
 import RoomUsers from 'client/components/Room/RoomUsers/RoomUsers';
+import RoomTransactions from 'client/components/Room/RoomTransactions/RoomTransactions';
 
 interface IRouteParams {
   roomId: string;
@@ -39,7 +40,8 @@ const Room: React.FC = () => {
   const {
     title,
     users,
-    costs
+    costs,
+    transactions
   } = room;
 
   return (
@@ -50,8 +52,14 @@ const Room: React.FC = () => {
 
       <RoomCosts
         roomId={room.id}
-        costs={costs}
         users={users}
+        costs={costs}
+      />
+
+      <RoomTransactions
+        roomId={roomId}
+        users={users}
+        transactions={transactions}
       />
     </div>
   );

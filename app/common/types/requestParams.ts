@@ -1,4 +1,4 @@
-import { ICost } from 'common/types/room';
+import { ICost, ITransaction } from 'common/types/room';
 
 export interface ICreateRoomParams {
   title: string;
@@ -8,4 +8,9 @@ export interface ICreateRoomParams {
 export interface IAddRoomCost {
   roomId: string;
   cost: Omit<ICost, 'id'>;
+}
+
+export interface IAddRoomTransaction {
+  roomId: string;
+  transaction: Omit<ITransaction, 'id'>;
 }

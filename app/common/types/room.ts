@@ -10,9 +10,17 @@ export interface ICost {
   to: string[];
 }
 
+export interface ITransaction {
+  id: string;
+  value: number;
+  from: string;
+  to: string;
+}
+
 export interface IRoom {
   id: string;
   title: string;
   users: IUser[];
   costs: ICost[];
+  transactions: ITransaction[];
 }

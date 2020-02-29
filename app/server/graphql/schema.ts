@@ -13,17 +13,31 @@ const typeDefs = gql`
     to: [String!]!
   }
 
+  type Transaction {
+    id: String!
+    value: Int!
+    from: String!
+    to: String!
+  }
+
   type Room {
     id: ID!
     title: String!
     users: [User!]!
     costs: [Cost!]!
+    transactions: [Transaction!]!
   }
 
   input CostInput {
     value: Int!
     from: String!
     to: [String!]!
+  }
+
+  input TransactionInput {
+    value: Int!
+    from: String!
+    to: String!
   }
 
   type Query {
@@ -34,6 +48,7 @@ const typeDefs = gql`
   type Mutation {
     createRoom(title: String!, names: [String!]!): Room!
     addRoomCost(roomId: String!, cost: CostInput): Room
+    addRoomTransaction(roomId: String!, transaction: TransactionInput): Room
   }
 `;
 
