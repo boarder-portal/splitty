@@ -1,33 +1,41 @@
 import React from 'react';
 import { useRouteMatch } from 'react-router-dom';
 import { useQuery } from '@apollo/react-hooks';
+import styled from 'styled-components';
 
 import { GET_ROOM_QUERY } from 'client/graphql/queries';
 
 import { IRoom } from 'common/types/room';
 
-import RoomCosts from 'client/components/Room/RoomCosts/RoomCosts';
-import RoomUsers from 'client/components/Room/RoomUsers/RoomUsers';
-import RoomTransactions from 'client/components/Room/RoomTransactions/RoomTransactions';
-import RoomBalance from 'client/components/Room/RoomBalance/RoomBalance';
+import Costs from 'client/components/Room/components/Costs/Costs';
+import Users from 'client/components/Room/components/Users/Users';
+import Transactions from 'client/components/Room/components/Transactions/Transactions';
+import Balance from 'client/components/Room/components/Balance/Balance';
+import Heading from 'client/components/common/Heading/Heading';
 
 interface IRouteParams {
   roomId: string;
 }
 
-const Room: React.FC = () => {
+interface IRoomProps {
+  className?: string;
+}
+
+const Room: React.FC<IRoomProps> = (props) => {
+  const { className } = props;
+
   const {
     params: {
-      roomId
-    }
+      roomId,
+    },
   } = useRouteMatch<IRouteParams>();
 
   const {
-    data: roomData
+    data: roomData,
   } = useQuery<{ room: IRoom | null }, { roomId: string }>(GET_ROOM_QUERY, {
     variables: {
-      roomId
-    }
+      roomId,
+    },
   });
 
   const room = roomData?.room;
@@ -42,28 +50,31 @@ const Room: React.FC = () => {
     title,
     users,
     costs,
-    transactions
+    transactions,
   } = room;
 
   return (
-    <div>
-      <div>Комната {title}</div>
+    <div className={className}>
+      <Heading level="1">{title}</Heading>
 
-      <RoomUsers users={users} />
+      <Users users={users} />
 
-      <RoomCosts
+      <Costs
+        rootClassName="costs"
         roomId={room.id}
         users={users}
         costs={costs}
       />
 
-      <RoomTransactions
+      <Transactions
+        rootClassName="transactions"
         roomId={roomId}
         users={users}
         transactions={transactions}
       />
 
-      <RoomBalance
+      <Balance
+        rootClassName="balance"
         users={users}
         costs={costs}
         transactions={transactions}
@@ -72,4 +83,12 @@ const Room: React.FC = () => {
   );
 };
 
-export default Room;
+export default styled(Room)`
+  padding: 0 32px;
+
+  .costs,
+  .transactions,
+  .balance {
+    margin-top: 12px;
+  }
+`;

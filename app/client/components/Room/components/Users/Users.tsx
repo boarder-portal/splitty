@@ -2,16 +2,18 @@ import React from 'react';
 
 import { IUser } from 'common/types/room';
 
+import Heading from 'client/components/common/Heading/Heading';
+
 interface IRoomUsersProps {
   users: IUser[];
 }
 
-const RoomUsers: React.FC<IRoomUsersProps> = (props) => {
+const Users: React.FC<IRoomUsersProps> = (props) => {
   const { users } = props;
 
   return (
     <div>
-      <div>Участники</div>
+      <Heading level="4">Участники</Heading>
 
       <div>
         {users.map((user) => (
@@ -22,4 +24,4 @@ const RoomUsers: React.FC<IRoomUsersProps> = (props) => {
   );
 };
 
-export default RoomUsers;
+export default Users;

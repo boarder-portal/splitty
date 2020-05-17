@@ -1,27 +1,38 @@
 import React, { useState, useCallback, useEffect } from 'react';
+import styled from 'styled-components';
 import { useMutation } from '@apollo/react-hooks';
 
 import { ADD_ROOM_TRANSACTION_QUERY } from 'client/graphql/queries';
 
 import { IRoom, ITransaction, IUser } from 'common/types/room';
-import { IAddRoomTransaction } from 'common/types/requestParams';
+import { IAddRoomTransactionParams } from 'common/types/requestParams';
 
 import getUserNameById from 'client/utilities/getUserNameById';
 
+import Heading from 'client/components/common/Heading/Heading';
+
 interface IRoomTransactionsProps {
+  className?: string;
+  rootClassName: string;
   roomId: string;
   transactions: ITransaction[];
   users: IUser[];
 }
 
-const RoomTransactions: React.FC<IRoomTransactionsProps> = (props) => {
-  const { transactions, roomId, users } = props;
+const Transactions: React.FC<IRoomTransactionsProps> = (props) => {
+  const {
+    className,
+    rootClassName,
+    transactions,
+    roomId,
+    users,
+  } = props;
 
   const [fromUser, setFromUser] = useState<string>('');
   const [toUser, setToUser] = useState<string>('');
   const [transactionValue, setTransactionValue] = useState<string>('');
 
-  const [addRoomTransaction] = useMutation<{ addRoomTransaction: IRoom | null }, IAddRoomTransaction>(ADD_ROOM_TRANSACTION_QUERY);
+  const [addRoomTransaction] = useMutation<{ addRoomTransaction: IRoom | null }, IAddRoomTransactionParams>(ADD_ROOM_TRANSACTION_QUERY);
 
   const handleFromUserChange = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
     setFromUser(e.target.value);
@@ -44,9 +55,9 @@ const RoomTransactions: React.FC<IRoomTransactionsProps> = (props) => {
         transaction: {
           value: Number(transactionValue),
           from: fromUser,
-          to: toUser
-        }
-      }
+          to: toUser,
+        },
+      },
     });
   }, [addRoomTransaction, fromUser, roomId, toUser, transactionValue]);
 
@@ -56,21 +67,28 @@ const RoomTransactions: React.FC<IRoomTransactionsProps> = (props) => {
   }, [users]);
 
   return (
-    <div>
+    <div className={`${className} ${rootClassName}`}>
       <div>
-        <div>Переводы</div>
+        <Heading level="4">Переводы</Heading>
 
         <div>
-          {transactions.map((transaction) => (
-            <div key={transaction.id}>{`${transaction.value} руб. ${getUserNameById(users, transaction.from)} -> ${getUserNameById(users, transaction.to)}`}</div>
-          ))}
+          {transactions.map((transaction) => {
+            const userNameFrom = getUserNameById(users, transaction.from);
+            const userNameTo = getUserNameById(users, transaction.to);
+
+            return (
+              <div key={transaction.id}>
+                {`${transaction.value} руб. ${userNameFrom} -> ${userNameTo}`}</div>
+            );
+          })}
         </div>
       </div>
 
       <div>
-        <div>Перевел</div>
+        <div className="fromUserTitle">Перевел</div>
 
         <select
+          className="fromUserSelect"
           value={fromUser}
           onChange={handleFromUserChange}
         >
@@ -84,9 +102,10 @@ const RoomTransactions: React.FC<IRoomTransactionsProps> = (props) => {
           ))}
         </select>
 
-        <div>Кому</div>
+        <div className="toUserTitle">Кому</div>
 
         <select
+          className="toUserSelect"
           value={toUser}
           onChange={handleToUserChange}
         >
@@ -100,21 +119,35 @@ const RoomTransactions: React.FC<IRoomTransactionsProps> = (props) => {
           ))}
         </select>
 
-        <div>
+        <div className="transactionValueBlock">
           <div>Сколько</div>
 
           <input
+            className="transactionValueInput"
             value={transactionValue}
             onChange={handleTransactionValueChange}
           />
         </div>
 
-        <div>
-          <button onClick={handleAddTransactionClick}>Добавить перевод</button>
-        </div>
+        <button
+          className="addTransactionButton"
+          onClick={handleAddTransactionClick}
+        >
+          Добавить перевод
+        </button>
       </div>
     </div>
   );
 };
 
-export default RoomTransactions;
+export default styled(Transactions)`
+  .fromUserTitle,
+  .fromUserSelect,
+  .toUserTitle,
+  .toUserSelect,
+  .transactionValueBlock,
+  .transactionValueInput,
+  .addTransactionButton {
+    margin-top: 8px;
+  }
+`;

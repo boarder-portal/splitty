@@ -4,11 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "npm-run-all --parallel watch-server watch-client",
-    "watch-client": "parcel watch app/client/client.tsx --out-dir ./build",
-    "watch-server": "ts-node-dev -r tsconfig-paths/register ./app/server/server.ts",
-    "typecheck": "tsc",
-    "eslint": "eslint . --ext .js,.jsx,.ts,.tsx"
+    "dev-start": "npm-run-all --parallel server:watch client:watch",
+    "prod-start": "npm-run-all --sequential client:build server:start",
+    "client:build": "parcel build app/client/client.tsx --out-dir ./build",
+    "client:watch": "parcel watch app/client/client.tsx --no-hmr --out-dir ./build",
+    "server:start": "ts-node -r tsconfig-paths/register ./app/server/server.ts",
+    "server:watch": "ts-node-dev -r tsconfig-paths/register ./app/server/server.ts",
+    "typecheck": "tsc --noEmit",
+    "eslint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "eslint-fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix"
   },
   "alias": {
     "server": "./app/server",
@@ -41,6 +45,8 @@
     "redux": "^4.0.5",
     "regenerator-runtime": "^0.13.3",
     "styled-components": "^5.0.1",
+    "styled-normalize": "^8.0.7",
+    "styled-reset": "^4.1.4",
     "ts-node": "^8.6.2",
     "ts-node-dev": "^1.0.0-pre.44",
     "typescript": "^3.7.5",

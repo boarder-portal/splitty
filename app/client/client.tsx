@@ -9,14 +9,8 @@ import { ApolloProvider } from '@apollo/react-hooks';
 
 import App from 'client/components/App/App';
 
-if ((module as any).hot) {
-  (module as any).hot.accept(() => {
-    setTimeout(() => location.reload(), 400);
-  });
-}
-
 const client = new ApolloClient({
-  uri: 'http://dev.splitty.ru:4000'
+  uri: 'http://dev.splitty.ru:4000',
 });
 
 render(
@@ -25,5 +19,5 @@ render(
       <App />
     </BrowserRouter>
   </ApolloProvider>,
-  document.querySelector('#root')
+  document.querySelector('#root'),
 );

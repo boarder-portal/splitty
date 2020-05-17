@@ -1,7 +1,7 @@
 import uuid from 'uuid/v4';
 
 import { IRoom } from 'common/types/room';
-import { IAddRoomCost, IAddRoomTransaction, ICreateRoomParams } from 'common/types/requestParams';
+import { IAddRoomCostParams, IAddRoomTransactionParams, ICreateRoomParams } from 'common/types/requestParams';
 
 const rooms: IRoom[] = [];
 
@@ -12,7 +12,7 @@ const resolvers = {
     },
     rooms(): IRoom[] {
       return rooms;
-    }
+    },
   },
   Mutation: {
     createRoom(parent: void, { title, names }: ICreateRoomParams): IRoom {
@@ -21,17 +21,17 @@ const resolvers = {
         title,
         users: names.map((name) => ({
           id: uuid(),
-          name
+          name,
         })),
         costs: [],
-        transactions: []
+        transactions: [],
       };
 
       rooms.push(newRoom);
 
       return newRoom;
     },
-    addRoomCost(parent: void, { roomId, cost }: IAddRoomCost): IRoom | null {
+    addRoomCost(parent: void, { roomId, cost }: IAddRoomCostParams): IRoom | null {
       const room = rooms.find(({ id }) => id === roomId);
 
       if (!room) {
@@ -40,12 +40,12 @@ const resolvers = {
 
       room.costs.push({
         id: uuid(),
-        ...cost
+        ...cost,
       });
 
       return room;
     },
-    addRoomTransaction(parent: void, { roomId, transaction }: IAddRoomTransaction): IRoom | null {
+    addRoomTransaction(parent: void, { roomId, transaction }: IAddRoomTransactionParams): IRoom | null {
       const room = rooms.find(({ id }) => id === roomId);
 
       if (!room) {
@@ -54,12 +54,12 @@ const resolvers = {
 
       room.transactions.push({
         id: uuid(),
-        ...transaction
+        ...transaction,
       });
 
       return room;
-    }
-  }
+    },
+  },
 };
 
 export default resolvers;

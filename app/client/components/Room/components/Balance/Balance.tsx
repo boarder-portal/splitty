@@ -3,6 +3,8 @@ import styled from 'styled-components';
 
 import { ICost, ITransaction, IUser } from 'common/types/room';
 
+import Heading from 'client/components/common/Heading/Heading';
+
 interface IUserBalance {
   userId: string;
   name: string;
@@ -14,17 +16,19 @@ interface IUserBalance {
 
 interface IRoomBalanceProps {
   className?: string;
+  rootClassName: string;
   users: IUser[];
   costs: ICost[];
   transactions: ITransaction[];
 }
 
-const RoomBalance: React.FC<IRoomBalanceProps> = (props) => {
+const Balance: React.FC<IRoomBalanceProps> = (props) => {
   const {
     className,
+    rootClassName,
     users,
     costs,
-    transactions
+    transactions,
   } = props;
 
   const usersBalanceInfo: IUserBalance[] = useMemo(() => {
@@ -37,7 +41,7 @@ const RoomBalance: React.FC<IRoomBalanceProps> = (props) => {
         paid: 0,
         shouldPay: 0,
         transferred: 0,
-        received: 0
+        received: 0,
       });
     });
 
@@ -77,8 +81,8 @@ const RoomBalance: React.FC<IRoomBalanceProps> = (props) => {
   }, [costs, transactions, users]);
 
   return (
-    <div className={className}>
-      <div>Баланс</div>
+    <div className={`${className} ${rootClassName}`}>
+      <Heading level="4">Баланс</Heading>
 
       <div className="table">
         <div className="row">
@@ -96,7 +100,7 @@ const RoomBalance: React.FC<IRoomBalanceProps> = (props) => {
           shouldPay,
           transferred,
           received,
-          name
+          name,
         }) => (
           <div
             className="row"
@@ -115,7 +119,7 @@ const RoomBalance: React.FC<IRoomBalanceProps> = (props) => {
   );
 };
 
-export default styled(RoomBalance)`
+export default styled(Balance)`
   .table {
     display: table;
   }
@@ -126,5 +130,6 @@ export default styled(RoomBalance)`
 
   .cell {
     display: table-cell;
+    padding: 4px;
   }
 `;

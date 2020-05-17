@@ -8,7 +8,7 @@ import resolvers from 'server/graphql/resolvers';
 
 const server = new ApolloServer({
   typeDefs,
-  resolvers
+  resolvers,
 });
 
 server

@@ -5,12 +5,12 @@ export interface ICreateRoomParams {
   names: string[];
 }
 
-export interface IAddRoomCost {
+export interface IAddRoomCostParams {
   roomId: string;
   cost: Omit<ICost, 'id'>;
 }
 
-export interface IAddRoomTransaction {
+export interface IAddRoomTransactionParams {
   roomId: string;
   transaction: Omit<ITransaction, 'id'>;
 }

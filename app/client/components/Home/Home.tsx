@@ -1,4 +1,5 @@
 import React, { useCallback, useState, useEffect } from 'react';
+import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 import { useMutation } from '@apollo/react-hooks';
 
@@ -7,40 +8,37 @@ import { CREATE_ROOM_QUERY } from 'client/graphql/queries';
 import { IRoom } from 'common/types/room';
 import { ICreateRoomParams } from 'common/types/requestParams';
 
-const Home: React.FC = () => {
+import Title from 'client/components/Home/components/Title/Title';
+import Users from 'client/components/Home/components/Users/Users';
+
+interface IHomeProps {
+  className?: string;
+}
+
+const Home: React.FC<IHomeProps> = (props) => {
+  const { className } = props;
+
   const history = useHistory();
 
   const [roomTitle, setRoomTitle] = useState('');
-  const [usersNames, setUsersNames] = useState(['', '']);
+  const [usersNames, setUsersNames] = useState<string[]>([]);
 
   const [
     createRoom,
     {
       data: newRoomData,
-      loading: createRoomLoading
-    }
+      loading: isCreateRoomLoading,
+    },
   ] = useMutation<{ createRoom: Pick<IRoom, 'id'> }, ICreateRoomParams>(CREATE_ROOM_QUERY);
 
   const newRoomId = newRoomData?.createRoom.id;
-
-  const handleRoomTitleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    setRoomTitle(e.target.value);
-  }, []);
-
-  const handleUserNameChange = useCallback((userIndex: number, e: React.ChangeEvent<HTMLInputElement>) => {
-    setUsersNames([
-      ...usersNames.slice(0, userIndex),
-      e.target.value,
-      ...usersNames.slice(userIndex + 1)
-    ]);
-  }, [usersNames]);
 
   const handleCreateRoomClick = useCallback(() => {
     createRoom({
       variables: {
         names: usersNames,
-        title: roomTitle
-      }
+        title: roomTitle,
+      },
     });
   }, [createRoom, roomTitle, usersNames]);
 
@@ -51,36 +49,22 @@ const Home: React.FC = () => {
   }, [history, newRoomId]);
 
   return (
-    <div>
-      <h1>Splitty</h1>
+    <div className={className}>
+      <Title
+        title={roomTitle}
+        onChange={setRoomTitle}
+      />
 
-      <div>
-        <div>Название комнаты (поездка, кафе)</div>
-
-        <input
-          value={roomTitle}
-          onChange={handleRoomTitleChange}
-        />
-      </div>
-
-      <div>
-        <div>Имена участников</div>
-
-        {usersNames.map((name, index) => {
-          return (
-            <div key={index}>
-              <input
-                value={name}
-                onChange={handleUserNameChange.bind(null, index)}
-              />
-            </div>
-          );
-        })}
-      </div>
+      <Users
+        rootClassName="users"
+        names={usersNames}
+        onChange={setUsersNames}
+      />
 
       <button
+        className="createRoomButton"
         onClick={handleCreateRoomClick}
-        disabled={createRoomLoading}
+        disabled={isCreateRoomLoading}
       >
         Создать комнату
       </button>
@@ -88,4 +72,11 @@ const Home: React.FC = () => {
   );
 };
 
-export default Home;
+export default styled(Home)`
+  padding: 0 32px;
+
+  .users,
+  .createRoomButton {
+    margin-top: 12px;
+  }
+`;

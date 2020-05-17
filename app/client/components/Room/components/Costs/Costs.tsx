@@ -1,28 +1,39 @@
 import React, { useState, useCallback, useEffect } from 'react';
+import styled from 'styled-components';
 import { useMutation } from '@apollo/react-hooks';
 
 import { ADD_ROOM_COST_QUERY } from 'client/graphql/queries';
 
 import { ICost, IRoom, IUser } from 'common/types/room';
-import { IAddRoomCost } from 'common/types/requestParams';
+import { IAddRoomCostParams } from 'common/types/requestParams';
 
 import getUserNameById from 'client/utilities/getUserNameById';
 
+import Heading from 'client/components/common/Heading/Heading';
+
 interface IRoomCostsProps {
+  className?: string;
+  rootClassName: string;
   roomId: string;
   costs: ICost[];
   users: IUser[];
 }
 
-const RoomCosts: React.FC<IRoomCostsProps> = (props) => {
-  const { costs, roomId, users } = props;
+const Costs: React.FC<IRoomCostsProps> = (props) => {
+  const {
+    className,
+    rootClassName,
+    costs,
+    roomId,
+    users,
+  } = props;
 
   const [fromUserCost, setFromUserCost] = useState<string>('');
   const [toUserCost, setToUserCost] = useState<string>('');
   const [toUsersCost, setToUsersCost] = useState<string[]>([]);
   const [costValue, setCostValue] = useState<string>('');
 
-  const [addRoomCost] = useMutation<{ addRoomCost: IRoom | null }, IAddRoomCost>(ADD_ROOM_COST_QUERY);
+  const [addRoomCost] = useMutation<{ addRoomCost: IRoom | null }, IAddRoomCostParams>(ADD_ROOM_COST_QUERY);
 
   const handleFromCostUserChange = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
     setFromUserCost(e.target.value);
@@ -49,9 +60,9 @@ const RoomCosts: React.FC<IRoomCostsProps> = (props) => {
         cost: {
           value: Number(costValue),
           from: fromUserCost,
-          to: toUsersCost
-        }
-      }
+          to: toUsersCost,
+        },
+      },
     });
   }, [addRoomCost, costValue, fromUserCost, roomId, toUsersCost]);
 
@@ -61,21 +72,33 @@ const RoomCosts: React.FC<IRoomCostsProps> = (props) => {
   }, [users]);
 
   return (
-    <div>
+    <div className={`${className} ${rootClassName}`}>
       <div>
-        <div>Затраты</div>
+        <Heading level="4">Затраты</Heading>
 
         <div>
-          {costs.map((cost) => (
-            <div key={cost.id}>{`${cost.value} руб. ${getUserNameById(users, cost.from)} -> ${cost.to.map((id) => getUserNameById(users, id)).join(', ')}`}</div>
-          ))}
+          {costs.map((cost) => {
+            const fromUserName = getUserNameById(users, cost.from);
+
+            return (
+              <div
+                key={cost.id}
+                className="costItem"
+              >
+                {`${cost.value} руб. ${fromUserName} -> ${
+                  cost.to.map((id) => getUserNameById(users, id)).join(', ')
+                }`}
+              </div>
+            );
+          })}
         </div>
       </div>
 
       <div>
-        <div>Оплатил</div>
+        <div className="fromUserTitle">Оплатил</div>
 
         <select
+          className="fromUserSelect"
           value={fromUserCost}
           onChange={handleFromCostUserChange}
         >
@@ -89,45 +112,73 @@ const RoomCosts: React.FC<IRoomCostsProps> = (props) => {
           ))}
         </select>
 
-        <div>За кого</div>
+        <div className="toUserTitle">За кого</div>
 
         <div>
           {toUsersCost.map((toUserCostId) => users.find((user) => user.id === toUserCostId)?.name || '').join(', ')}
         </div>
 
-        <select
-          value={toUserCost}
-          onChange={handleToCostUserChange}
-        >
-          {users.map((user) => (
-            <option
-              key={user.id}
-              value={user.id}
-            >
-              {user.name}
-            </option>
-          ))}
-        </select>
-
         <div>
-          <button onClick={handleAddToCostUserClick}>Добавить</button>
+          <select
+            className="toUserSelect"
+            value={toUserCost}
+            onChange={handleToCostUserChange}
+          >
+            {users.map((user) => (
+              <option
+                key={user.id}
+                value={user.id}
+              >
+                {user.name}
+              </option>
+            ))}
+          </select>
+
+          <button
+            className="addToCostUserButton"
+            onClick={handleAddToCostUserClick}
+          >
+            Добавить
+          </button>
         </div>
 
-        <div>
+        <div className="costValueBlock">
           <div>Сколько</div>
 
           <input
+            className="costInput"
             value={costValue}
             onChange={handleCostChange}
           />
         </div>
 
-        <div>
-          <button onClick={handleAddCostClick}>Добавить трату</button>
-        </div>
+        <button
+          className="addCostButton"
+          onClick={handleAddCostClick}
+        >
+          Добавить трату
+        </button>
       </div>
     </div>
   );
 };
 
-export default RoomCosts;
+export default styled(Costs)`
+  .costItem:not(:first-child) {
+    margin-top: 4px;
+  }
+
+  .fromUserTitle,
+  .fromUserSelect,
+  .toUserTitle,
+  .toUserSelect,
+  .costValueBlock,
+  .costInput,
+  .addCostButton {
+    margin-top: 8px;
+  }
+
+  .addToCostUserButton {
+    margin-left: 12px;
+  }
+`;
