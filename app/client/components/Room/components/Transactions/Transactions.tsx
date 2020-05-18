@@ -49,6 +49,8 @@ const Transactions: React.FC<IRoomTransactionsProps> = (props) => {
   }, []);
 
   const handleAddTransactionClick = useCallback(() => {
+    setTransactionValue('');
+
     addRoomTransaction({
       variables: {
         roomId,
@@ -63,7 +65,7 @@ const Transactions: React.FC<IRoomTransactionsProps> = (props) => {
 
   useEffect(() => {
     setFromUser(users[0].id);
-    setToUser(users[0].id);
+    setToUser(users[1].id);
   }, [users]);
 
   return (
@@ -77,8 +79,12 @@ const Transactions: React.FC<IRoomTransactionsProps> = (props) => {
             const userNameTo = getUserNameById(users, transaction.to);
 
             return (
-              <div key={transaction.id}>
-                {`${transaction.value} руб. ${userNameFrom} -> ${userNameTo}`}</div>
+              <div
+                key={transaction.id}
+                className="transactionItem"
+              >
+                {`${transaction.value} руб. ${userNameFrom} -> ${userNameTo}`}
+              </div>
             );
           })}
         </div>
@@ -141,6 +147,10 @@ const Transactions: React.FC<IRoomTransactionsProps> = (props) => {
 };
 
 export default styled(Transactions)`
+  .transactionItem:not(:first-child) {
+    margin-top: 4px;
+  }
+
   .fromUserTitle,
   .fromUserSelect,
   .toUserTitle,

@@ -1,21 +1,34 @@
+import path from 'path';
+import fs from 'fs-extra';
 import uuid from 'uuid/v4';
 
 import { IRoom } from 'common/types/room';
 import { IAddRoomCostParams, IAddRoomTransactionParams, ICreateRoomParams } from 'common/types/requestParams';
+import { IDB } from 'server/types/db';
 
-const rooms: IRoom[] = [];
+async function getDB(): Promise<IDB> {
+  return fs.readJSON(path.resolve('./db.json'));
+}
+
+async function writeDB(db: IDB): Promise<void> {
+  await fs.writeJSON(path.resolve('./db.json'), db);
+}
 
 const resolvers = {
   Query: {
-    room(parent: void, { roomId }: { roomId: string }): IRoom | null {
-      return rooms.find(({ id }) => id === roomId) || null;
+    async room(parent: void, { roomId }: { roomId: string }): Promise<IRoom | null> {
+      const db = await getDB();
+
+      return db.rooms.find(({ id }) => id === roomId) || null;
     },
-    rooms(): IRoom[] {
-      return rooms;
+    async rooms(): Promise<IRoom[]> {
+      const db = await getDB();
+
+      return db.rooms;
     },
   },
   Mutation: {
-    createRoom(parent: void, { title, names }: ICreateRoomParams): IRoom {
+    async createRoom(parent: void, { title, names }: ICreateRoomParams): Promise<IRoom> {
       const newRoom = {
         id: uuid(),
         title,
@@ -27,12 +40,18 @@ const resolvers = {
         transactions: [],
       };
 
-      rooms.push(newRoom);
+      const db = await getDB();
+
+      db.rooms.push(newRoom);
+
+      await writeDB(db);
 
       return newRoom;
     },
-    addRoomCost(parent: void, { roomId, cost }: IAddRoomCostParams): IRoom | null {
-      const room = rooms.find(({ id }) => id === roomId);
+    async addRoomCost(parent: void, { roomId, cost }: IAddRoomCostParams): Promise<IRoom | null> {
+      const db = await getDB();
+
+      const room = db.rooms.find(({ id }) => id === roomId);
 
       if (!room) {
         return null;
@@ -43,10 +62,14 @@ const resolvers = {
         ...cost,
       });
 
+      await writeDB(db);
+
       return room;
     },
-    addRoomTransaction(parent: void, { roomId, transaction }: IAddRoomTransactionParams): IRoom | null {
-      const room = rooms.find(({ id }) => id === roomId);
+    async addRoomTransaction(parent: void, { roomId, transaction }: IAddRoomTransactionParams): Promise<IRoom | null> {
+      const db = await getDB();
+
+      const room = db.rooms.find(({ id }) => id === roomId);
 
       if (!room) {
         return null;
@@ -56,6 +79,8 @@ const resolvers = {
         id: uuid(),
         ...transaction,
       });
+
+      await writeDB(db);
 
       return room;
     },

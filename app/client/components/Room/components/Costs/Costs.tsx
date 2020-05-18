@@ -54,6 +54,9 @@ const Costs: React.FC<IRoomCostsProps> = (props) => {
   }, []);
 
   const handleAddCostClick = useCallback(() => {
+    setCostValue('');
+    setToUsersCost([]);
+
     addRoomCost({
       variables: {
         roomId,
@@ -68,7 +71,7 @@ const Costs: React.FC<IRoomCostsProps> = (props) => {
 
   useEffect(() => {
     setFromUserCost(users[0].id);
-    setToUserCost(users[0].id);
+    setToUserCost(users[1].id);
   }, [users]);
 
   return (
