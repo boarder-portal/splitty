@@ -13,7 +13,7 @@ import App from 'client/components/App/App';
 import theme from 'client/theme';
 
 const client = new ApolloClient({
-  uri: 'http://dev.splitty.ru:4000',
+  uri: '/graphql',
 });
 
 render(

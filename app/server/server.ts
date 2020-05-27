@@ -1,7 +1,7 @@
 import path from 'path';
 import express from 'express';
 import morgan from 'morgan';
-import { ApolloServer } from 'apollo-server';
+import { ApolloServer } from 'apollo-server-express';
 
 import typeDefs from 'server/graphql/schema';
 import resolvers from 'server/graphql/resolvers';
@@ -11,11 +11,9 @@ const server = new ApolloServer({
   resolvers,
 });
 
-server
-  .listen()
-  .then(({ url }) => console.log(`🚀 Apollo server ready at ${url}`));
-
 const app = express();
+
+server.applyMiddleware({ app });
 
 app
   .set('view engine', 'pug')
@@ -27,4 +25,4 @@ app
     res.render('index');
   });
 
-app.listen(3000, () => console.log('\nListening on port 3000...'));
+app.listen(2525, () => console.log('\nListening on port 2525...'));

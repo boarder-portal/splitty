@@ -42,6 +42,10 @@ const Room: React.FC<IRoomProps> = (props) => {
 
   console.log('roomData', roomData);
 
+  if (!roomData) {
+    return null;
+  }
+
   if (!room) {
     return <div>Нет такой комнаты</div>;
   }
