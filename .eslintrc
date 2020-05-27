@@ -34,6 +34,7 @@
           "/(/|^)types?(/|$)/",
           "/utilities\\//",
           "/components\\//",
+          "/client\\//",
           "/server\\//",
           ["parent", "sibling", "index"]
         ]

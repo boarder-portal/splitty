@@ -6,8 +6,11 @@ import { render } from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from '@apollo/react-hooks';
+import { ThemeProvider } from '@material-ui/core/styles';
 
 import App from 'client/components/App/App';
+
+import theme from 'client/theme';
 
 const client = new ApolloClient({
   uri: 'http://dev.splitty.ru:4000',
@@ -16,7 +19,9 @@ const client = new ApolloClient({
 render(
   <ApolloProvider client={client}>
     <BrowserRouter>
-      <App />
+      <ThemeProvider theme={theme}>
+        <App />
+      </ThemeProvider>
     </BrowserRouter>
   </ApolloProvider>,
   document.querySelector('#root'),

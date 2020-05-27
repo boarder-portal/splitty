@@ -2,6 +2,7 @@ import React, { useCallback, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 import { useMutation } from '@apollo/react-hooks';
+import Button from '@material-ui/core/Button';
 
 import { CREATE_ROOM_QUERY } from 'client/graphql/queries';
 
@@ -61,13 +62,15 @@ const Home: React.FC<IHomeProps> = (props) => {
         onChange={setUsersNames}
       />
 
-      <button
+      <Button
         className="createRoomButton"
-        onClick={handleCreateRoomClick}
+        variant="contained"
+        color="primary"
         disabled={isCreateRoomLoading}
+        onClick={handleCreateRoomClick}
       >
         Создать комнату
-      </button>
+      </Button>
     </div>
   );
 };

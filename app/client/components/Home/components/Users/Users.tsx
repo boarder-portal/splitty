@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
+import AddIcon from '@material-ui/icons/Add';
 
 import Heading from 'client/components/common/Heading/Heading';
 
@@ -48,12 +49,10 @@ const Users: React.FC<IUsersProps> = (props) => {
         onChange={handleChange}
       />
 
-      <button
+      <AddIcon
         className="addUserButton"
         onClick={addUser}
-      >
-        Добавить
-      </button>
+      />
     </div>
   );
 };
@@ -64,6 +63,7 @@ export default styled(Users)`
   }
 
   .addUserButton {
+    cursor: pointer;
     margin-left: 12px;
   }
 `;
