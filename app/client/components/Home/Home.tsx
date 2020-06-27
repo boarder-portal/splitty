@@ -34,7 +34,9 @@ const Home: React.FC<IHomeProps> = (props) => {
 
   const newRoomId = newRoomData?.createRoom.id;
 
-  const handleCreateRoomClick = useCallback(() => {
+  const handleCreateRoomClick = useCallback((e) => {
+    e.preventDefault();
+
     createRoom({
       variables: {
         names: usersNames,
@@ -50,7 +52,7 @@ const Home: React.FC<IHomeProps> = (props) => {
   }, [history, newRoomId]);
 
   return (
-    <div className={className}>
+    <form className={className} onSubmit={handleCreateRoomClick}>
       <Title
         title={roomTitle}
         onChange={setRoomTitle}
@@ -63,23 +65,26 @@ const Home: React.FC<IHomeProps> = (props) => {
       />
 
       <Button
+        type="submit"
         className="createRoomButton"
         variant="contained"
         color="primary"
-        disabled={isCreateRoomLoading}
-        onClick={handleCreateRoomClick}
+        disabled={isCreateRoomLoading || !roomTitle || usersNames.length < 2}
       >
         Создать комнату
       </Button>
-    </div>
+    </form>
   );
 };
 
 export default styled(Home)`
   padding: 0 32px;
 
-  .users,
-  .createRoomButton {
+  .users {
     margin-top: 12px;
+  }
+
+  .createRoomButton {
+    margin-top: 20px;
   }
 `;

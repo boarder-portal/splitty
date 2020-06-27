@@ -1,8 +1,10 @@
 import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
-import AddIcon from '@material-ui/icons/Add';
-
-import Heading from 'client/components/common/Heading/Heading';
+import Box from '@material-ui/core/Box';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import Chip from '@material-ui/core/Chip';
+import FaceIcon from '@material-ui/icons/Face';
 
 interface IUsersProps {
   className?: string;
@@ -34,36 +36,54 @@ const Users: React.FC<IUsersProps> = (props) => {
     ]);
   }, [onChange, userName]);
 
+  const removeUser = useCallback((name) => {
+    onChange((prevNames: string[]) => prevNames.filter((prevName) => prevName !== name));
+  }, [onChange]);
+
   return (
     <div className={`${className} ${rootClassName}`}>
-      <Heading level="6">Имена участников</Heading>
-
       <div>
         {names.map((name, index) => (
-          <div key={index} className="name">{name}</div>
+          <Chip
+            key={index}
+            className="name"
+            icon={<FaceIcon />}
+            label={name}
+            onDelete={() => removeUser(name)}
+            variant="outlined"
+          />
         ))}
       </div>
 
-      <input
-        value={userName}
-        onChange={handleChange}
-      />
+      <Box display="flex">
+        <TextField
+          label="Имя участника"
+          value={userName}
+          onChange={handleChange}
+        />
 
-      <AddIcon
-        className="addUserButton"
-        onClick={addUser}
-      />
+        <Button
+          className="addUserButton"
+          variant="contained"
+          color="default"
+          disabled={!userName}
+          onClick={addUser}
+        >
+          Добавить
+        </Button>
+      </Box>
     </div>
   );
 };
 
 export default styled(Users)`
-  .name {
-    margin-bottom: 8px;
+  .name:not(:first-child) {
+    margin-left: 8px;
   }
 
   .addUserButton {
+    align-self: flex-end;
     cursor: pointer;
-    margin-left: 12px;
+    margin-left: 20px;
   }
 `;

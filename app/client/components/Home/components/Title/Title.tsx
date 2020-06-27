@@ -1,6 +1,5 @@
 import React, { useCallback } from 'react';
-
-import Heading from 'client/components/common/Heading/Heading';
+import TextField from '@material-ui/core/TextField';
 
 interface ITitleProps {
   title: string;
@@ -18,14 +17,12 @@ const Title: React.FC<ITitleProps> = (props) => {
   }, [onChange]);
 
   return (
-    <div>
-      <Heading level="6">Название комнаты (поездка, кафе)</Heading>
-
-      <input
-        value={title}
-        onChange={handleChange}
-      />
-    </div>
+    <TextField
+      label="Название комнаты"
+      value={title}
+      required
+      onChange={handleChange}
+    />
   );
 };
 
