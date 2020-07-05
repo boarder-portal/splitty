@@ -42,7 +42,7 @@ const Users: React.FC<IUsersProps> = (props) => {
 
   return (
     <div className={`${className} ${rootClassName}`}>
-      <div>
+      <div className="usersWrapper">
         {names.map((name, index) => (
           <Chip
             key={index}
@@ -55,7 +55,7 @@ const Users: React.FC<IUsersProps> = (props) => {
         ))}
       </div>
 
-      <Box display="flex">
+      <Box className="addUserWrapper" display="flex">
         <TextField
           label="Имя участника"
           value={userName}
@@ -77,8 +77,22 @@ const Users: React.FC<IUsersProps> = (props) => {
 };
 
 export default styled(Users)`
-  .name:not(:first-child) {
+  .usersWrapper {
+    &:empty {
+      display: none;
+    }
+
+    margin-top: -8px;
+    margin-left: -8px;
+  }
+
+  .name {
     margin-left: 8px;
+    margin-top: 8px;
+  }
+
+  .addUserWrapper {
+    margin-top: 8px;
   }
 
   .addUserButton {

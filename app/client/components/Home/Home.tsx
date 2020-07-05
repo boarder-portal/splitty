@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 import { useMutation } from '@apollo/react-hooks';
 import Button from '@material-ui/core/Button';
+import Container from '@material-ui/core/Container';
 
 import { CREATE_ROOM_QUERY } from 'client/graphql/queries';
 
@@ -11,6 +12,7 @@ import { ICreateRoomParams } from 'common/types/requestParams';
 
 import Title from 'client/components/Home/components/Title/Title';
 import Users from 'client/components/Home/components/Users/Users';
+import Heading from 'client/components/common/Heading/Heading';
 
 interface IHomeProps {
   className?: string;
@@ -52,33 +54,40 @@ const Home: React.FC<IHomeProps> = (props) => {
   }, [history, newRoomId]);
 
   return (
-    <form className={className} onSubmit={handleCreateRoomClick}>
-      <Title
-        title={roomTitle}
-        onChange={setRoomTitle}
-      />
+    <Container>
+      <form className={className} onSubmit={handleCreateRoomClick}>
+        <Heading level="1">Создать комнату</Heading>
 
-      <Users
-        rootClassName="users"
-        names={usersNames}
-        onChange={setUsersNames}
-      />
+        <Title
+          title={roomTitle}
+          onChange={setRoomTitle}
+        />
 
-      <Button
-        type="submit"
-        className="createRoomButton"
-        variant="contained"
-        color="primary"
-        disabled={isCreateRoomLoading || !roomTitle || usersNames.length < 2}
-      >
-        Создать комнату
-      </Button>
-    </form>
+        <Users
+          rootClassName="users"
+          names={usersNames}
+          onChange={setUsersNames}
+        />
+
+        <Button
+          type="submit"
+          className="createRoomButton"
+          variant="contained"
+          color="primary"
+          disabled={isCreateRoomLoading || !roomTitle || usersNames.length < 2}
+        >
+          Создать комнату
+        </Button>
+      </form>
+    </Container>
   );
 };
 
 export default styled(Home)`
-  padding: 0 32px;
+  .container {
+    padding-top: 20px;
+    padding-bottom: 32px;
+  }
 
   .users {
     margin-top: 12px;

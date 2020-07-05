@@ -2,16 +2,21 @@ import React from 'react';
 import { useRouteMatch } from 'react-router-dom';
 import { useQuery } from '@apollo/react-hooks';
 import styled from 'styled-components';
+import Container from '@material-ui/core/Container';
 
 import { GET_ROOM_QUERY } from 'client/graphql/queries';
 
 import { IRoom } from 'common/types/room';
 
-import Costs from 'client/components/Room/components/Costs/Costs';
-import Users from 'client/components/Room/components/Users/Users';
 import Transactions from 'client/components/Room/components/Transactions/Transactions';
 import Balance from 'client/components/Room/components/Balance/Balance';
 import Heading from 'client/components/common/Heading/Heading';
+import Button from 'client/components/common/Button/Button';
+import AddCostModal from 'client/components/Room/components/AddCostModal/AddCostModal';
+import AddTransactionModal from 'client/components/Room/components/AddTransactionModal/AddTransactionModal';
+import Costs from 'client/components/Room/components/Costs/Costs';
+
+import { useBoolean } from 'client/hooks/useBoolean';
 
 interface IRouteParams {
   roomId: string;
@@ -23,6 +28,18 @@ interface IRoomProps {
 
 const Room: React.FC<IRoomProps> = (props) => {
   const { className } = props;
+
+  const {
+    value: isAddCostModalOpen,
+    setTrue: openAddCostModal,
+    setFalse: closeAddCostModal,
+  } = useBoolean(false);
+
+  const {
+    value: isAddTransactionModalOpen,
+    setTrue: openAddTransactionModal,
+    setFalse: closeAddTransactionModal,
+  } = useBoolean(false);
 
   const {
     params: {
@@ -40,8 +57,6 @@ const Room: React.FC<IRoomProps> = (props) => {
 
   const room = roomData?.room;
 
-  console.log('roomData', roomData);
-
   if (!roomData) {
     return null;
   }
@@ -58,21 +73,31 @@ const Room: React.FC<IRoomProps> = (props) => {
   } = room;
 
   return (
-    <div className={className}>
+    <Container className={className}>
       <Heading level="1">{title}</Heading>
 
-      <Users users={users} />
+      <Button
+        className="addCostButton"
+        onClick={openAddCostModal}
+      >
+        Добавить трату
+      </Button>
+
+      <Button
+        className="addTransactionButton"
+        onClick={openAddTransactionModal}
+      >
+        Добавить перевод
+      </Button>
 
       <Costs
         rootClassName="costs"
-        roomId={room.id}
-        users={users}
         costs={costs}
+        users={users}
       />
 
       <Transactions
         rootClassName="transactions"
-        roomId={roomId}
         users={users}
         transactions={transactions}
       />
@@ -83,12 +108,33 @@ const Room: React.FC<IRoomProps> = (props) => {
         costs={costs}
         transactions={transactions}
       />
-    </div>
+
+      <AddCostModal
+        roomId={roomId}
+        users={users}
+        isOpen={isAddCostModalOpen}
+        onClose={closeAddCostModal}
+      />
+
+      <AddTransactionModal
+        roomId={roomId}
+        users={users}
+        isOpen={isAddTransactionModalOpen}
+        onClose={closeAddTransactionModal}
+      />
+    </Container>
   );
 };
 
 export default styled(Room)`
-  padding: 0 32px;
+  .addCostButton,
+  .addTransactionButton {
+    display: block;
+  }
+
+  .addTransactionButton {
+    margin-top: 8px;
+  }
 
   .costs,
   .transactions,

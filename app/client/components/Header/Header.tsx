@@ -1,5 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
+import Container from '@material-ui/core/Container';
+import { Link } from 'react-router-dom';
 
 import Heading from 'client/components/common/Heading/Heading';
 
@@ -11,12 +13,15 @@ const Header: React.FC<IHeaderProps> = (props) => {
   const { className } = props;
 
   return (
-    <div className={className}>
-      <Heading level="5">Splitty</Heading>
-    </div>
+    <Container className={className}>
+      <Heading level="5">
+        <Link to="/">Splitty</Link>
+      </Heading>
+    </Container>
   );
 };
 
 export default styled(Header)`
-  padding: 12px 32px;
+  padding-top: 12px;
+  padding-bottom: 12px;
 `;

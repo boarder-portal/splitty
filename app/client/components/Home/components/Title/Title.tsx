@@ -20,7 +20,6 @@ const Title: React.FC<ITitleProps> = (props) => {
     <TextField
       label="Название комнаты"
       value={title}
-      required
       onChange={handleChange}
     />
   );

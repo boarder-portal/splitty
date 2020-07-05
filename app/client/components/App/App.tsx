@@ -9,6 +9,10 @@ import Room from 'client/components/Room/Room';
 import Header from 'client/components/Header/Header';
 
 const GlobalStyle = createGlobalStyle`
+  * {
+    box-sizing: border-box;
+  }
+
   body {
     font-family: Trebuchet MS, Helvetica, sans-serif;
   }
@@ -16,6 +20,12 @@ const GlobalStyle = createGlobalStyle`
   h1 {
     font-size: 100%;
     margin: 0;
+  }
+
+  a,
+  a:visited {
+    color: inherit;
+    text-decoration: none;
   }
 `;
 

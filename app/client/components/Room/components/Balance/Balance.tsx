@@ -84,42 +84,48 @@ const Balance: React.FC<IRoomBalanceProps> = (props) => {
     <div className={`${className} ${rootClassName}`}>
       <Heading level="4">Баланс</Heading>
 
-      <div className="table">
-        <div className="row">
-          <div className="cell" />
-          <div className="cell">Потратил</div>
-          <div className="cell">Должен потратить</div>
-          <div className="cell">Первевел</div>
-          <div className="cell">Получил</div>
-          <div className="cell">Итого</div>
-        </div>
-
-        {usersBalanceInfo.map(({
-          userId,
-          paid,
-          shouldPay,
-          transferred,
-          received,
-          name,
-        }) => (
-          <div
-            className="row"
-            key={userId}
-          >
-            <div>{name}</div>
-            <div className="cell">{paid}</div>
-            <div className="cell">{shouldPay}</div>
-            <div className="cell">{transferred}</div>
-            <div className="cell">{received}</div>
-            <div className="cell">{paid + transferred - shouldPay - received}</div>
+      <div className="tableWrapper">
+        <div className="table">
+          <div className="row">
+            <div className="cell" />
+            <div className="cell">Потратил</div>
+            <div className="cell">Должен потратить</div>
+            <div className="cell">Перевел</div>
+            <div className="cell">Получил</div>
+            <div className="cell">Итого</div>
           </div>
-        ))}
+
+          {usersBalanceInfo.map(({
+            userId,
+            paid,
+            shouldPay,
+            transferred,
+            received,
+            name,
+          }) => (
+            <div
+              className="row"
+              key={userId}
+            >
+              <div>{name}</div>
+              <div className="cell">{paid}</div>
+              <div className="cell">{shouldPay}</div>
+              <div className="cell">{transferred}</div>
+              <div className="cell">{received}</div>
+              <div className="cell">{paid + transferred - shouldPay - received}</div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
 };
 
 export default styled(Balance)`
+  .tableWrapper {
+    overflow: auto;
+  }
+
   .table {
     display: table;
   }
