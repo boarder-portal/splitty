@@ -27,19 +27,22 @@ const Transactions: React.FC<IRoomTransactionsProps> = (props) => {
       <Heading level="4">Переводы</Heading>
 
       <div>
-        {transactions.map((transaction) => {
-          const userNameFrom = getUserNameById(users, transaction.from);
-          const userNameTo = getUserNameById(users, transaction.to);
+        {transactions.length ?
+          transactions.map((transaction) => {
+            const userNameFrom = getUserNameById(users, transaction.from);
+            const userNameTo = getUserNameById(users, transaction.to);
 
-          return (
-            <div
-              key={transaction.id}
-              className="transactionItem"
-            >
-              {`${transaction.value} руб. ${userNameFrom} -> ${userNameTo}`}
-            </div>
-          );
-        })}
+            return (
+              <div
+                key={transaction.id}
+                className="transactionItem"
+              >
+                {`${transaction.value} руб. ${userNameFrom} -> ${userNameTo}`}
+              </div>
+            );
+          }) :
+          'Пока нет'
+        }
       </div>
     </div>
   );

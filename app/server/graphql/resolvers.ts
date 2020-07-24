@@ -14,12 +14,24 @@ export async function writeDB(db: IDB): Promise<void> {
   await fs.writeJSON(path.resolve('./db.json'), db);
 }
 
+interface ISession {
+  rooms?: { id: string; title: string; }[];
+}
+
 const resolvers = {
   Query: {
-    async room(parent: void, { roomId }: { roomId: string }): Promise<IRoom | null> {
+    async room(parent: void, { roomId }: { roomId: string }, context: { session: ISession }): Promise<IRoom | null> {
+      context.session.rooms = context.session.rooms || [];
+
       const db = await getDB();
 
-      return db.rooms.find(({ id }) => id === roomId) || null;
+      const room = db.rooms.find(({ id }) => id === roomId) || null;
+
+      if (room && !context.session.rooms.find(({ id }) => id === roomId)) {
+        context.session.rooms.push({ id: roomId, title: room.title });
+      }
+
+      return room;
     },
     async rooms(): Promise<IRoom[]> {
       const db = await getDB();
@@ -28,7 +40,7 @@ const resolvers = {
     },
   },
   Mutation: {
-    async createRoom(parent: void, { title, names }: ICreateRoomParams): Promise<IRoom> {
+    async createRoom(parent: void, { title, names }: ICreateRoomParams, context: { session: ISession }): Promise<IRoom> {
       const newRoom = {
         id: uuid(),
         title,
@@ -39,6 +51,13 @@ const resolvers = {
         costs: [],
         transactions: [],
       };
+
+      context.session.rooms = context.session.rooms || [];
+
+      context.session.rooms.push({
+        id: newRoom.id,
+        title: newRoom.title,
+      });
 
       const db = await getDB();
 

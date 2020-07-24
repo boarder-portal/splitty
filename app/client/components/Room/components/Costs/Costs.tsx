@@ -27,20 +27,23 @@ const Costs: React.FC<IRoomCostsProps> = (props) => {
       <Heading level="4">Затраты</Heading>
 
       <div>
-        {costs.map((cost) => {
-          const fromUserName = getUserNameById(users, cost.from);
+        {costs.length ?
+          costs.map((cost) => {
+            const fromUserName = getUserNameById(users, cost.from);
 
-          return (
-            <div
-              key={cost.id}
-              className="costItem"
-            >
-              {`${cost.value} руб. ${fromUserName} -> ${
-                cost.to.map((id) => getUserNameById(users, id)).join(', ')
-              } ${cost.description}`}
-            </div>
-          );
-        })}
+            return (
+              <div
+                key={cost.id}
+                className="costItem"
+              >
+                {`${cost.value} руб. ${fromUserName} -> ${
+                  cost.to.map((id) => getUserNameById(users, id)).join(', ')
+                } ${cost.description}`}
+              </div>
+            );
+          }) :
+          'Пока нет'
+        }
       </div>
     </div>
   );

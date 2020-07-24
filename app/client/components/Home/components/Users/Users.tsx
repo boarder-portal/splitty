@@ -5,6 +5,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Chip from '@material-ui/core/Chip';
 import FaceIcon from '@material-ui/icons/Face';
+import AddIcon from '@material-ui/icons/Add';
 
 interface IUsersProps {
   className?: string;
@@ -57,6 +58,7 @@ const Users: React.FC<IUsersProps> = (props) => {
 
       <Box className="addUserWrapper" display="flex">
         <TextField
+          className="input"
           label="Имя участника"
           value={userName}
           onChange={handleChange}
@@ -69,7 +71,7 @@ const Users: React.FC<IUsersProps> = (props) => {
           disabled={!userName}
           onClick={addUser}
         >
-          Добавить
+          <AddIcon />
         </Button>
       </Box>
     </div>
@@ -89,6 +91,10 @@ export default styled(Users)`
   .name {
     margin-left: 8px;
     margin-top: 8px;
+  }
+
+  .input {
+    flex: 1 1 auto;
   }
 
   .addUserWrapper {
