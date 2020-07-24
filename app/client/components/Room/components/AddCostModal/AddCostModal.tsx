@@ -69,6 +69,7 @@ const AddCostModal: React.FC<IAddCostModalProps> = (props) => {
     setFromUser('');
     setToUsers([]);
     setCost('');
+    setDescription('');
 
     addRoomCost({
       variables: {
