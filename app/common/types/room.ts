@@ -8,6 +8,7 @@ export interface ICost {
   value: number;
   from: string;
   to: string[];
+  description: string;
 }
 
 export interface ITransaction {

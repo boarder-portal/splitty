@@ -35,6 +35,7 @@ const AddCostModal: React.FC<IAddCostModalProps> = (props) => {
   const [fromUser, setFromUser] = useState<string>('');
   const [toUsers, setToUsers] = useState<string[]>([]);
   const [cost, setCost] = useState<string>('');
+  const [description, setDescription] = useState<string>('');
 
   const [addRoomCost] = useMutation<{ addRoomCost: IRoom | null }, IAddRoomCostParams>(ADD_ROOM_COST_QUERY);
 
@@ -60,6 +61,10 @@ const AddCostModal: React.FC<IAddCostModalProps> = (props) => {
     setCost(e.target.value);
   }, []);
 
+  const handleDescriptionChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setDescription(e.target.value);
+  }, []);
+
   const handleAddCostClick = useCallback(() => {
     setFromUser('');
     setToUsers([]);
@@ -72,12 +77,13 @@ const AddCostModal: React.FC<IAddCostModalProps> = (props) => {
           value: Number(cost),
           from: fromUser,
           to: toUsers,
+          description,
         },
       },
     });
 
     onClose();
-  }, [addRoomCost, cost, fromUser, onClose, roomId, toUsers]);
+  }, [addRoomCost, cost, description, fromUser, onClose, roomId, toUsers]);
 
   return (
     <Modal
@@ -144,6 +150,14 @@ const AddCostModal: React.FC<IAddCostModalProps> = (props) => {
           onChange={handleCostChange}
         />
 
+        <TextField
+          className="description"
+          type="text"
+          label="Описание"
+          value={description}
+          onChange={handleDescriptionChange}
+        />
+
         <Button
           className="button"
           disabled={!fromUser || !toUsers.length || !cost }
@@ -172,7 +186,8 @@ export default styled(React.memo(AddCostModal))`
 
   .fromBlock,
   .toBlock,
-  .cost {
+  .cost,
+  .description {
     width: 100%;
 
     &:not(:first-child) {

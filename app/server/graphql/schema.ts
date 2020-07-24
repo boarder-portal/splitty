@@ -11,6 +11,7 @@ const typeDefs = gql`
     value: Int!
     from: String!
     to: [String!]!
+    description: String
   }
 
   type Transaction {
@@ -32,6 +33,7 @@ const typeDefs = gql`
     value: Int!
     from: String!
     to: [String!]!
+    description: String
   }
 
   input TransactionInput {

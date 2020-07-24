@@ -14,6 +14,7 @@ export const GET_ROOM_QUERY = gql`
         value
         from
         to
+        description
       }
       transactions {
         id
@@ -47,6 +48,7 @@ export const ADD_ROOM_COST_QUERY = gql`
         value
         from
         to
+        description
       }
       transactions {
         id
@@ -72,6 +74,7 @@ export const ADD_ROOM_TRANSACTION_QUERY = gql`
         value
         from
         to
+        description
       }
       transactions {
         id
