@@ -6,11 +6,11 @@ import { IRoom } from 'common/types/room';
 import { IAddRoomCostParams, IAddRoomTransactionParams, ICreateRoomParams } from 'common/types/requestParams';
 import { IDB } from 'server/types/db';
 
-async function getDB(): Promise<IDB> {
+export async function getDB(): Promise<IDB> {
   return fs.readJSON(path.resolve('./db.json'));
 }
 
-async function writeDB(db: IDB): Promise<void> {
+export async function writeDB(db: IDB): Promise<void> {
   await fs.writeJSON(path.resolve('./db.json'), db);
 }
 
