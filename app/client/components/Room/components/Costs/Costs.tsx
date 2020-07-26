@@ -38,7 +38,7 @@ const Costs: React.FC<IRoomCostsProps> = (props) => {
               >
                 {`${cost.value} руб. ${fromUserName} -> ${
                   cost.to.map((id) => getUserNameById(users, id)).join(', ')
-                } ${cost.description}`}
+                } (${cost.description})`}
               </div>
             );
           }) :
@@ -50,7 +50,11 @@ const Costs: React.FC<IRoomCostsProps> = (props) => {
 };
 
 export default styled(Costs)`
-  .costItem:not(:first-child) {
-    margin-top: 4px;
+  .costItem {
+    line-height: 1.33;
+
+    &:not(:first-child) {
+      margin-top: 4px;
+    }
   }
 `;

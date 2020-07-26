@@ -88,8 +88,8 @@ const Balance: React.FC<IRoomBalanceProps> = (props) => {
         <div className="table">
           <div className="row">
             <div className="cell" />
+            <div className="cell">Оплатил</div>
             <div className="cell">Потратил</div>
-            <div className="cell">Должен потратить</div>
             <div className="cell">Перевел</div>
             <div className="cell">Получил</div>
             <div className="cell">Итого</div>
