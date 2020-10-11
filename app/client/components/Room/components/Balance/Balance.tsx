@@ -108,11 +108,11 @@ const Balance: React.FC<IRoomBalanceProps> = (props) => {
               key={userId}
             >
               <div>{name}</div>
-              <div className="cell">{paid}</div>
-              <div className="cell">{shouldPay}</div>
-              <div className="cell">{transferred}</div>
-              <div className="cell">{received}</div>
-              <div className="cell">{paid + transferred - shouldPay - received}</div>
+              <div className="cell">{paid.toFixed(2)}</div>
+              <div className="cell">{shouldPay.toFixed(2)}</div>
+              <div className="cell">{transferred.toFixed(2)}</div>
+              <div className="cell">{received.toFixed(2)}</div>
+              <div className="cell">{(paid + transferred - shouldPay - received).toFixed(2)}</div>
             </div>
           ))}
         </div>

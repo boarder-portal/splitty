@@ -8,7 +8,7 @@ const typeDefs = gql`
 
   type Cost {
     id: String!
-    value: Int!
+    value: Float!
     from: String!
     to: [String!]!
     description: String
@@ -16,7 +16,7 @@ const typeDefs = gql`
 
   type Transaction {
     id: String!
-    value: Int!
+    value: Float!
     from: String!
     to: String!
   }
@@ -30,14 +30,14 @@ const typeDefs = gql`
   }
 
   input CostInput {
-    value: Int!
+    value: Float!
     from: String!
     to: [String!]!
     description: String
   }
 
   input TransactionInput {
-    value: Int!
+    value: Float!
     from: String!
     to: String!
   }

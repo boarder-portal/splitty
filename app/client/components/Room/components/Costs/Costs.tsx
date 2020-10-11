@@ -38,7 +38,7 @@ const Costs: React.FC<IRoomCostsProps> = (props) => {
               >
                 {`${cost.value} руб. ${fromUserName} -> ${
                   cost.to.map((id) => getUserNameById(users, id)).join(', ')
-                } (${cost.description})`}
+                }${cost.description ? ` (${cost.description})` : ''}`}
               </div>
             );
           }) :
