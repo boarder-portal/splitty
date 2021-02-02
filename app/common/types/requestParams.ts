@@ -14,3 +14,13 @@ export interface IAddRoomTransactionParams {
   roomId: string;
   transaction: Omit<ITransaction, 'id'>;
 }
+
+export interface IDeleteRoomCostParams {
+  roomId: string;
+  costId: string;
+}
+
+export interface IDeleteRoomTransactionParams {
+  roomId: string;
+  transactionId: string;
+}

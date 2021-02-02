@@ -26,6 +26,23 @@ interface IRoomProps {
   className?: string;
 }
 
+const Root = styled(Container)`
+  .addCostButton,
+  .addTransactionButton {
+    display: block;
+  }
+
+  .addTransactionButton {
+    margin-top: 8px;
+  }
+
+  .costs,
+  .transactions,
+  .balance {
+    margin-top: 12px;
+  }
+`;
+
 const Room: React.FC<IRoomProps> = (props) => {
   const { className } = props;
 
@@ -73,7 +90,7 @@ const Room: React.FC<IRoomProps> = (props) => {
   } = room;
 
   return (
-    <Container className={className}>
+    <Root className={className}>
       <Heading level="1">{title}</Heading>
 
       <Button
@@ -122,23 +139,8 @@ const Room: React.FC<IRoomProps> = (props) => {
         isOpen={isAddTransactionModalOpen}
         onClose={closeAddTransactionModal}
       />
-    </Container>
+    </Root>
   );
 };
 
-export default styled(Room)`
-  .addCostButton,
-  .addTransactionButton {
-    display: block;
-  }
-
-  .addTransactionButton {
-    margin-top: 8px;
-  }
-
-  .costs,
-  .transactions,
-  .balance {
-    margin-top: 12px;
-  }
-`;
+export default React.memo(Room);

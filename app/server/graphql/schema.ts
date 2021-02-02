@@ -51,6 +51,8 @@ const typeDefs = gql`
     createRoom(title: String!, names: [String!]!): Room!
     addRoomCost(roomId: String!, cost: CostInput): Room
     addRoomTransaction(roomId: String!, transaction: TransactionInput): Room
+    deleteRoomCost(roomId: String!, costId: String!): Room!
+    deleteRoomTransaction(roomId: String!, transactionId: String!): Room!
   }
 `;
 

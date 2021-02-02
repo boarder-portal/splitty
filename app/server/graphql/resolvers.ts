@@ -3,7 +3,12 @@ import fs from 'fs-extra';
 import uuid from 'uuid/v4';
 
 import { IRoom } from 'common/types/room';
-import { IAddRoomCostParams, IAddRoomTransactionParams, ICreateRoomParams } from 'common/types/requestParams';
+import {
+  IAddRoomCostParams,
+  IAddRoomTransactionParams,
+  ICreateRoomParams,
+  IDeleteRoomCostParams, IDeleteRoomTransactionParams
+} from 'common/types/requestParams';
 import { IDB } from 'server/types/db';
 
 export async function getDB(): Promise<IDB> {
@@ -67,6 +72,7 @@ const resolvers = {
 
       return newRoom;
     },
+
     async addRoomCost(parent: void, { roomId, cost }: IAddRoomCostParams): Promise<IRoom | null> {
       const db = await getDB();
 
@@ -98,6 +104,41 @@ const resolvers = {
         id: uuid(),
         ...transaction,
       });
+
+      await writeDB(db);
+
+      return room;
+    },
+
+    async deleteRoomCost(parent: void, { roomId, costId }: IDeleteRoomCostParams): Promise<IRoom> {
+      const db = await getDB();
+
+      const room = db.rooms.find(({ id }) => id === roomId);
+
+      if (!room) {
+        throw new Error('There is no such room');
+      }
+
+      const costToDeleteIndex = room.costs.findIndex((cost) => cost.id === costId);
+
+      room.costs.splice(costToDeleteIndex, 1);
+
+      await writeDB(db);
+
+      return room;
+    },
+    async deleteRoomTransaction(parent: void, { roomId, transactionId }: IDeleteRoomTransactionParams): Promise<IRoom> {
+      const db = await getDB();
+
+      const room = db.rooms.find(({ id }) => id === roomId);
+
+      if (!room) {
+        throw new Error('There is no such room');
+      }
+
+      const transactionToDeleteIndex = room.transactions.findIndex((cost) => cost.id === transactionId);
+
+      room.transactions.splice(transactionToDeleteIndex, 1);
 
       await writeDB(db);
 
