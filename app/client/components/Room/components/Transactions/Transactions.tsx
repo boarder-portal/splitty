@@ -50,7 +50,6 @@ const Transactions: React.FC<IRoomTransactionsProps> = (props) => {
   const [deleteRoomTransaction] = useMutation<{ deleteRoomTransaction: IRoom }, IDeleteRoomTransactionParams>(DELETE_ROOM_TRANSACTION_QUERY);
 
   const handleDeleteClick = useCallback((transactionId: string) => {
-    // eslint-disable-next-line no-alert
     const sureToDeleteRoomTransaction = confirm('Уверены, что хотите удалить перевод?');
 
     if (!sureToDeleteRoomTransaction) {

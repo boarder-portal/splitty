@@ -13,8 +13,29 @@ const GlobalStyle = createGlobalStyle`
     box-sizing: border-box;
   }
 
+  @font-face {
+    font-family: "Round";
+    src: url(/font-regular.otf);
+    font-weight: 400;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: "Round";
+    src: url(/font-bold.otf);
+    font-weight: 900;
+    font-style: normal;
+  }
+  html,
   body {
-    font-family: Trebuchet MS, Helvetica, sans-serif;
+    min-height: 100%;
+  }
+
+  body {
+    color: #333;
+
+    * {
+      font-family: Round, Helvetica, sans-serif;
+    }
   }
 
   h1 {

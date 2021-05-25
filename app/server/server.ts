@@ -37,7 +37,7 @@ app
   }))
   .set('view engine', 'pug')
   .set('views', path.join(__dirname, 'views'))
-  .use(morgan('dev'))
+  .use(morgan(':method :url :status :response-time ms :date[iso]'))
   .use(express.static('build'))
   .use(express.static('public'))
   .get('*', (req, res) => {

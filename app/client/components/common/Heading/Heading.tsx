@@ -1,10 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
+import block from 'bem-cn';
 
 interface IHeadingProps {
   className?: string;
   level: '1' | '2' | '3' | '4' | '5' | '6';
 }
+
+const b = block('Heading');
 
 const Heading: React.FC<IHeadingProps> = (props) => {
   const {
@@ -14,7 +17,7 @@ const Heading: React.FC<IHeadingProps> = (props) => {
   } = props;
 
   return (
-    <div className={`${className} ${className}_level_${level}`}>
+    <div className={b({ level }).mix(className)}>
       {children}
     </div>
   );
@@ -23,31 +26,24 @@ const Heading: React.FC<IHeadingProps> = (props) => {
 export default styled(Heading)`
   font-weight: bold;
   line-height: 1.2;
-  margin-bottom: 0.5rem;
-
-  &_level {
+  &.Heading_level {
     &_1 {
-        font-size: 2.5rem;
+      font-size: 2.5rem;
     }
-
     &_2 {
-        font-size: 2rem;
+      font-size: 2rem;
     }
-
     &_3 {
-        font-size: 1.75rem;
+      font-size: 1.75rem;
     }
-
     &_4 {
-        font-size: 1.5rem;
+      font-size: 1.5rem;
     }
-
     &_5 {
-        font-size: 1.25rem;
+      font-size: 1.25rem;
     }
-
     &_6 {
-        font-size: 1rem;
+      font-size: 1rem;
     }
   }
 `;

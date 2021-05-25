@@ -9,6 +9,7 @@ export interface ICost {
   from: string;
   to: string[];
   description: string;
+  date?: string;
 }
 
 export interface ITransaction {
@@ -16,6 +17,7 @@ export interface ITransaction {
   value: number;
   from: string;
   to: string;
+  date?: string;
 }
 
 export interface IRoom {

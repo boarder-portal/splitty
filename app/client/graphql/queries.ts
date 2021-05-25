@@ -13,12 +13,14 @@ const ROOM_FIELDS = `
     from
     to
     description
+    date
   }
   transactions {
     id
     value
     from
     to
+    date
   }
 `;
 

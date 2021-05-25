@@ -12,6 +12,7 @@ const typeDefs = gql`
     from: String!
     to: [String!]!
     description: String
+    date: String
   }
 
   type Transaction {
@@ -19,6 +20,7 @@ const typeDefs = gql`
     value: Float!
     from: String!
     to: String!
+    date: String
   }
 
   type Room {

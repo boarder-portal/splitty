@@ -1,13 +1,14 @@
 import path from 'path';
 import fs from 'fs-extra';
 import uuid from 'uuid/v4';
+import dayjs from 'dayjs';
 
 import { IRoom } from 'common/types/room';
 import {
   IAddRoomCostParams,
   IAddRoomTransactionParams,
   ICreateRoomParams,
-  IDeleteRoomCostParams, IDeleteRoomTransactionParams
+  IDeleteRoomCostParams, IDeleteRoomTransactionParams,
 } from 'common/types/requestParams';
 import { IDB } from 'server/types/db';
 
@@ -20,7 +21,7 @@ export async function writeDB(db: IDB): Promise<void> {
 }
 
 interface ISession {
-  rooms?: { id: string; title: string; }[];
+  rooms?: { id: string; title: string }[];
 }
 
 const resolvers = {
@@ -84,6 +85,7 @@ const resolvers = {
 
       room.costs.push({
         id: uuid(),
+        date: dayjs().format(),
         ...cost,
       });
 
@@ -102,6 +104,7 @@ const resolvers = {
 
       room.transactions.push({
         id: uuid(),
+        date: dayjs().format(),
         ...transaction,
       });
 

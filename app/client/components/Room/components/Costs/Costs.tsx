@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { useMutation } from '@apollo/react-hooks';
+import dayjs from 'dayjs';
 
 import { DELETE_ROOM_COST_QUERY } from 'client/graphql/queries';
 
@@ -10,6 +11,7 @@ import { ICost, IRoom, IUser } from 'common/types/room';
 import { IDeleteRoomCostParams } from 'common/types/requestParams';
 
 import getUserNameById from 'client/utilities/getUserNameById';
+import { HUMAN_DATE_FORMAT } from 'common/utilities/date/formats';
 
 import Heading from 'client/components/common/Heading/Heading';
 
@@ -22,13 +24,14 @@ interface IRoomCostsProps {
 
 const Root = styled.div`
   .costItem {
+    &:not(:first-child) {
+      margin-top: 8px;
+    }
+  }
+
+  .content {
     display: flex;
     align-items: center;
-    line-height: 1.33;
-
-    &:not(:first-child) {
-      margin-top: 4px;
-    }
   }
 
   .deleteIcon {
@@ -50,7 +53,6 @@ const Costs: React.FC<IRoomCostsProps> = (props) => {
   const [deleteRoomCost] = useMutation<{ deleteRoomCost: IRoom }, IDeleteRoomCostParams>(DELETE_ROOM_COST_QUERY);
 
   const handleDeleteClick = useCallback((costId: string) => {
-    // eslint-disable-next-line no-alert
     const sureToDeleteRoomCost = confirm('Уверены, что хотите удалить трату?');
 
     if (!sureToDeleteRoomCost) {
@@ -79,14 +81,25 @@ const Costs: React.FC<IRoomCostsProps> = (props) => {
                 key={cost.id}
                 className="costItem"
               >
-                {`${cost.value} руб. ${fromUserName} -> ${
-                  cost.to.map((id) => getUserNameById(users, id)).join(', ')
-                }${cost.description ? ` (${cost.description})` : ''}`}
+                {cost.date && (
+                  <Heading
+                    className="date"
+                    level="6"
+                  >
+                    {dayjs(cost.date).format(HUMAN_DATE_FORMAT)}
+                  </Heading>
+                )}
 
-                <DeleteIcon
-                  className="deleteIcon"
-                  onClick={handleDeleteClick.bind(null, cost.id)}
-                />
+                <div className="content">
+                  {`${cost.value} руб. ${fromUserName} -> ${
+                    cost.to.map((id) => getUserNameById(users, id)).join(', ')
+                  }${cost.description ? ` (${cost.description})` : ''}`}
+
+                  <DeleteIcon
+                    className="deleteIcon"
+                    onClick={handleDeleteClick.bind(null, cost.id)}
+                  />
+                </div>
               </div>
             );
           }) :
