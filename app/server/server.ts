@@ -1,9 +1,10 @@
-import path from 'path';
 import express from 'express';
 import redis from 'redis';
 import connectRedis from 'connect-redis';
 import expressSession from 'express-session';
 import morgan from 'morgan';
+
+import render from 'server/middlewares/render';
 
 const app = express();
 
@@ -23,13 +24,7 @@ app
       prefix: 'splitty',
     }),
   }))
-  .set('view engine', 'pug')
-  .set('views', path.join(__dirname, 'views'))
   .use(morgan(':method :url :status :response-time ms :date[iso]'))
-  .use(express.static('build'))
-  .use(express.static('public'))
-  .get('*', (req, res) => {
-    res.render('index');
-  });
+  .get('*', render);
 
 app.listen(2525, () => console.log('\nListening on port 2525...'));

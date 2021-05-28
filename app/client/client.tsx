@@ -1,9 +1,9 @@
 import React from 'react';
-import { render } from 'react-dom';
+import { hydrate } from 'react-dom';
 
 import App from 'client/components/App/App';
 
-render(
+hydrate(
   <App />,
   document.querySelector('#root'),
 );
