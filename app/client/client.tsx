@@ -1,9 +1,13 @@
 import React from 'react';
 import { hydrate } from 'react-dom';
+import { loadableReady } from '@loadable/component';
 
 import App from 'client/components/App/App';
 
-hydrate(
-  <App />,
-  document.querySelector('#root'),
-);
+loadableReady(() => {
+  hydrate(
+    <App />,
+    document.getElementById('root'),
+  );
+});
+
