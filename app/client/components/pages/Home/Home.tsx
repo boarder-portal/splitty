@@ -1,4 +1,5 @@
-import React from 'react';
+import { h } from 'preact';
+import { memo } from 'preact/compat';
 
 const Home: React.FC = () => {
   return (
@@ -8,4 +9,4 @@ const Home: React.FC = () => {
   );
 };
 
-export default React.memo(Home);
+export default memo(Home);

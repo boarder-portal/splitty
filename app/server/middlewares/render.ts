@@ -1,7 +1,7 @@
 import path from 'path';
 import { Request, Response } from 'express';
-import { renderToString } from 'react-dom/server';
-import React from 'react';
+import renderToString from 'preact-render-to-string';
+import { createElement } from 'preact';
 import { ChunkExtractor } from '@loadable/server';
 
 const statsFile = path.resolve('./build/client/loadable-stats.json');
@@ -10,7 +10,7 @@ const extractor = new ChunkExtractor({ statsFile, publicPath: '/build' });
 import App from 'client/components/App/App';
 
 export default function render(req: Request, res: Response) {
-  const jsx = extractor.collectChunks(React.createElement(App));
+  const jsx = extractor.collectChunks(createElement(App, null));
   const appHtml = renderToString(jsx);
 
   const linkTags = extractor.getLinkTags();

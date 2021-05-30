@@ -1,13 +1,16 @@
-import React from 'react';
-import { hydrate } from 'react-dom';
+if (process.env.NODE_ENV === 'development') {
+  require('preact/debug');
+}
+
+import { h, hydrate } from 'preact';
 import { loadableReady } from '@loadable/component';
 
 import App from 'client/components/App/App';
 
-loadableReady(() => {
-  hydrate(
-    <App />,
-    document.getElementById('root'),
-  );
-});
+const rootEl = document.getElementById('root');
 
+if (rootEl) {
+  loadableReady(() => {
+    hydrate(<App />, rootEl);
+  });
+}

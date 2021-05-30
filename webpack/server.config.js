@@ -15,9 +15,11 @@ module.exports = {
     chunkFilename: '[name].[contenthash].js',
     path: path.resolve(__dirname, '../build/server'),
   },
-  mode: process.env.PRODUCTION ? 'production' : 'development',
+  mode: process.env.NODE_ENV ? 'production' : 'development',
   resolve: {
     alias: {
+      react: 'preact/compat',
+      'react-dom': 'preact/compat',
       client: path.resolve(__dirname, '../app/client'),
       common: path.resolve(__dirname, '../app/common'),
       server: path.resolve(__dirname, '../app/server'),

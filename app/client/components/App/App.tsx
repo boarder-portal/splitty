@@ -1,20 +1,10 @@
-import React, { useState } from 'react';
-import loadable from '@loadable/component';
+import { h, FunctionalComponent } from 'preact';
 
-const HomeLoadable = loadable(() => import('client/components/pages/Home/Home'));
-
-const App: React.FC = () => {
-  const [counter, setCounter] = useState(0);
-
+const App: FunctionalComponent = () => {
   return (
-    <>
-      <div
-        onClick={() => setCounter((c) => c + 1)}
-      >
-        Hello worldd
-      </div>
-      <HomeLoadable />
-    </>
+    <div>
+      Hello world
+    </div>
   );
 };
 
