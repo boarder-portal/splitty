@@ -1,8 +1,13 @@
 import { h, FunctionalComponent } from 'preact';
+import block from 'bem-cn';
+
+import './App.scss';
+
+const b = block('App');
 
 const App: FunctionalComponent = () => {
   return (
-    <div>
+    <div className={b()}>
       Hello world
     </div>
   );
