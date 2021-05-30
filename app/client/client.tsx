@@ -4,6 +4,7 @@ if (process.env.NODE_ENV === 'development') {
 
 import { h, hydrate } from 'preact';
 import { loadableReady } from '@loadable/component';
+import { BrowserRouter } from 'react-router-dom';
 
 import App from 'client/components/App/App';
 
@@ -11,6 +12,11 @@ const rootEl = document.getElementById('root');
 
 if (rootEl) {
   loadableReady(() => {
-    hydrate(<App />, rootEl);
+    hydrate(
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>,
+      rootEl,
+    );
   });
 }
