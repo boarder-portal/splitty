@@ -6,6 +6,7 @@
     "outDir": "./dist",
     "jsx": "react",
     "sourceMap": true,
+    "moduleResolution": "node",
     "esModuleInterop": true,
     "skipLibCheck": true,
     "baseUrl": ".",
