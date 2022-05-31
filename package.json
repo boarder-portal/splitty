@@ -8,7 +8,7 @@
     "prod-start": "npm-run-all --sequential client:build server:start",
     "client:build": "parcel build app/client/client.tsx --out-dir ./build",
     "client:watch": "parcel watch app/client/client.tsx --no-hmr --out-dir ./build",
-    "server:start": "ts-node -r tsconfig-paths/register ./app/server/server.ts",
+    "server:start": "ts-node --transpile-only -r tsconfig-paths/register ./app/server/server.ts",
     "server:watch": "ts-node-dev -r tsconfig-paths/register ./app/server/server.ts",
     "generateDB": "ts-node -r tsconfig-paths/register app/server/db/generateDB.ts",
     "typecheck": "tsc --noEmit",
