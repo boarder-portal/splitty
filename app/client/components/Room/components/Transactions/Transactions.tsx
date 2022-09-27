@@ -3,12 +3,14 @@ import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
 import { useMutation } from '@apollo/react-hooks';
 import DeleteIcon from '@material-ui/icons/Delete';
+import dayjs from 'dayjs';
 
 import { DELETE_ROOM_TRANSACTION_QUERY } from 'client/graphql/queries';
 
 import { IRoom, ITransaction, IUser } from 'common/types/room';
 import { IDeleteRoomTransactionParams } from 'common/types/requestParams';
 
+import { HUMAN_DATE_FORMAT } from 'common/utilities/date/formats';
 import getUserNameById from 'client/utilities/getUserNameById';
 
 import Heading from 'client/components/common/Heading/Heading';
@@ -22,13 +24,16 @@ interface IRoomTransactionsProps {
 
 const Root = styled.div`
   .transactionItem {
-    display: flex;
-    align-items: center;
     line-height: 1.33;
 
     &:not(:first-child) {
       margin-top: 4px;
     }
+  }
+
+  .content {
+    display: flex;
+    align-items: center;
   }
 
   .deleteIcon {
@@ -79,12 +84,23 @@ const Transactions: React.FC<IRoomTransactionsProps> = (props) => {
                 key={transaction.id}
                 className="transactionItem"
               >
-                {`${transaction.value} руб. ${userNameFrom} -> ${userNameTo}`}
+                {transaction.date && (
+                  <Heading
+                    className="date"
+                    level="6"
+                  >
+                    {dayjs(transaction.date).format(HUMAN_DATE_FORMAT)}
+                  </Heading>
+                )}
 
-                <DeleteIcon
-                  className="deleteIcon"
-                  onClick={handleDeleteClick.bind(null, transaction.id)}
-                />
+                <div className="content">
+                  {`${transaction.value} руб. ${userNameFrom} -> ${userNameTo}`}
+
+                  <DeleteIcon
+                    className="deleteIcon"
+                    onClick={handleDeleteClick.bind(null, transaction.id)}
+                  />
+                </div>
               </div>
             );
           }) :

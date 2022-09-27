@@ -47,3 +47,9 @@ app
 server.applyMiddleware({ app });
 
 app.listen(2525, () => console.log('\nListening on port 2525...'));
+
+declare module 'express-session' {
+  interface SessionData {
+    rooms?: { id: string; title: string }[];
+  }
+}
