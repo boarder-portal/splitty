@@ -40,6 +40,14 @@ const Root = styled.div`
   }
 `;
 
+export function getCostText(cost: ICost, users: IUser[]) {
+  const fromUserName = getUserNameById(users, cost.from);
+
+  return `${cost.value} ${fromUserName} -> ${
+    cost.to.map((id) => getUserNameById(users, id)).join(', ')
+  }${cost.description ? ` (${cost.description})` : ''}`;
+}
+
 const Costs: React.FC<IRoomCostsProps> = (props) => {
   const {
     className,
@@ -74,8 +82,6 @@ const Costs: React.FC<IRoomCostsProps> = (props) => {
       <div>
         {costs.length ?
           costs.map((cost) => {
-            const fromUserName = getUserNameById(users, cost.from);
-
             return (
               <div
                 key={cost.id}
@@ -91,9 +97,7 @@ const Costs: React.FC<IRoomCostsProps> = (props) => {
                 )}
 
                 <div className="content">
-                  {`${cost.value} руб. ${fromUserName} -> ${
-                    cost.to.map((id) => getUserNameById(users, id)).join(', ')
-                  }${cost.description ? ` (${cost.description})` : ''}`}
+                  {getCostText(cost, users)}
 
                   <DeleteIcon
                     className="deleteIcon"

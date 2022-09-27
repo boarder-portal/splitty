@@ -1,7 +1,6 @@
 import fs from 'fs-extra';
-import path from 'path';
 
-const DB_PATH = path.resolve(`${__dirname}/../../../db.json`);
+import { DB_PATH } from 'server/db/constants';
 
 (async () => {
   await fs.ensureFile(DB_PATH);

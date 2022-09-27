@@ -3,12 +3,13 @@ import fs from 'fs-extra';
 import uuid from 'uuid/v4';
 import dayjs from 'dayjs';
 
-import { IRoom } from 'common/types/room';
+import { EHistoryType, IRoom } from 'common/types/room';
 import {
   IAddRoomCostParams,
   IAddRoomTransactionParams,
   ICreateRoomParams,
-  IDeleteRoomCostParams, IDeleteRoomTransactionParams,
+  IDeleteRoomCostParams,
+  IDeleteRoomTransactionParams,
 } from 'common/types/requestParams';
 import { IDB } from 'server/types/db';
 
@@ -47,7 +48,7 @@ const resolvers = {
   },
   Mutation: {
     async createRoom(parent: void, { title, names }: ICreateRoomParams, context: { session: ISession }): Promise<IRoom> {
-      const newRoom = {
+      const newRoom: IRoom = {
         id: uuid(),
         title,
         users: names.map((name) => ({
@@ -56,6 +57,8 @@ const resolvers = {
         })),
         costs: [],
         transactions: [],
+        costHistoryItems: [],
+        transactionHistoryItems: [],
       };
 
       context.session.rooms = context.session.rooms || [];
@@ -83,10 +86,18 @@ const resolvers = {
         return null;
       }
 
-      room.costs.push({
+      const newCost = {
         id: uuid(),
         date: dayjs().format(),
         ...cost,
+      };
+
+      room.costs.push(newCost);
+
+      room.costHistoryItems.push({
+        type: EHistoryType.ADD_COST,
+        date: dayjs().format(),
+        data: newCost,
       });
 
       await writeDB(db);
@@ -102,10 +113,18 @@ const resolvers = {
         return null;
       }
 
-      room.transactions.push({
+      const newTransaction = {
         id: uuid(),
         date: dayjs().format(),
         ...transaction,
+      };
+
+      room.transactions.push(newTransaction);
+
+      room.transactionHistoryItems.push({
+        type: EHistoryType.ADD_TRANSACTION,
+        date: dayjs().format(),
+        data: newTransaction,
       });
 
       await writeDB(db);
@@ -124,7 +143,13 @@ const resolvers = {
 
       const costToDeleteIndex = room.costs.findIndex((cost) => cost.id === costId);
 
-      room.costs.splice(costToDeleteIndex, 1);
+      const deletedCosts = room.costs.splice(costToDeleteIndex, 1)[0];
+
+      room.costHistoryItems.push({
+        type: EHistoryType.DELETE_COST,
+        date: dayjs().format(),
+        data: deletedCosts,
+      });
 
       await writeDB(db);
 
@@ -141,7 +166,13 @@ const resolvers = {
 
       const transactionToDeleteIndex = room.transactions.findIndex((cost) => cost.id === transactionId);
 
-      room.transactions.splice(transactionToDeleteIndex, 1);
+      const deletedTransaction = room.transactions.splice(transactionToDeleteIndex, 1)[0];
+
+      room.transactionHistoryItems.push({
+        type: EHistoryType.DELETE_TRANSACTION,
+        date: dayjs().format(),
+        data: deletedTransaction,
+      });
 
       await writeDB(db);
 

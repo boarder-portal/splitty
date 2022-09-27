@@ -23,12 +23,26 @@ const typeDefs = gql`
     date: String
   }
 
+  type CostHistoryItem {
+    type: String!
+    date: String!
+    data: Cost!
+  }
+
+  type TransactionHistoryItem {
+    type: String!
+    date: String!
+    data: Transaction!
+  }
+
   type Room {
     id: ID!
     title: String!
     users: [User!]!
     costs: [Cost!]!
     transactions: [Transaction!]!
+    costHistoryItems: [CostHistoryItem!]!
+    transactionHistoryItems: [TransactionHistoryItem!]!
   }
 
   input CostInput {

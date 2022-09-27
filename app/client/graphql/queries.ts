@@ -22,6 +22,29 @@ const ROOM_FIELDS = `
     to
     date
   }
+  costHistoryItems {
+    type
+    date
+    data {
+      id
+      value
+      from
+      to
+      description
+      date
+    }
+  }
+  transactionHistoryItems {
+    type
+    date
+    data {
+      id
+      value
+      from
+      to
+      date
+    }
+  }
 `;
 
 export const GET_ROOM_QUERY = gql`

@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useRouteMatch } from 'react-router-dom';
 import { useQuery } from '@apollo/react-hooks';
 import styled from 'styled-components';
 import Container from '@material-ui/core/Container';
+import { sortBy } from 'lodash';
 
 import { GET_ROOM_QUERY } from 'client/graphql/queries';
 
@@ -15,6 +16,7 @@ import Button from 'client/components/common/Button/Button';
 import AddCostModal from 'client/components/Room/components/AddCostModal/AddCostModal';
 import AddTransactionModal from 'client/components/Room/components/AddTransactionModal/AddTransactionModal';
 import Costs from 'client/components/Room/components/Costs/Costs';
+import History from 'client/components/Room/components/History/History';
 
 import { useBoolean } from 'client/hooks/useBoolean';
 
@@ -38,7 +40,8 @@ const Root = styled(Container)`
 
   .costs,
   .transactions,
-  .balance {
+  .balance,
+  .history {
     margin-top: 12px;
   }
 `;
@@ -73,6 +76,22 @@ const Room: React.FC<IRoomProps> = (props) => {
   });
 
   const room = roomData?.room;
+
+  const historyItems = useMemo(() => {
+    if (!room) {
+      return [];
+    }
+
+    return sortBy([...room.costHistoryItems, ...room.transactionHistoryItems], (item) => {
+      const { date } = item;
+
+      if (!date) {
+        return -Infinity;
+      }
+
+      return Number(new Date(date));
+    });
+  }, [room]);
 
   if (!roomData) {
     return null;
@@ -125,6 +144,12 @@ const Room: React.FC<IRoomProps> = (props) => {
         costs={costs}
         transactions={transactions}
       />
+
+      {Boolean(historyItems.length) && <History
+        rootClassName="history"
+        items={historyItems}
+        users={users}
+      />}
 
       <AddCostModal
         roomId={roomId}

@@ -42,6 +42,13 @@ const Root = styled.div`
   }
 `;
 
+export function getTransactionText(transaction: ITransaction, users: IUser[]) {
+  const userNameFrom = getUserNameById(users, transaction.from);
+  const userNameTo = getUserNameById(users, transaction.to);
+
+  return `${transaction.value} ${userNameFrom} -> ${userNameTo}`;
+}
+
 const Transactions: React.FC<IRoomTransactionsProps> = (props) => {
   const {
     className,
@@ -76,9 +83,6 @@ const Transactions: React.FC<IRoomTransactionsProps> = (props) => {
       <div>
         {transactions.length ?
           transactions.map((transaction) => {
-            const userNameFrom = getUserNameById(users, transaction.from);
-            const userNameTo = getUserNameById(users, transaction.to);
-
             return (
               <div
                 key={transaction.id}
@@ -94,7 +98,7 @@ const Transactions: React.FC<IRoomTransactionsProps> = (props) => {
                 )}
 
                 <div className="content">
-                  {`${transaction.value} руб. ${userNameFrom} -> ${userNameTo}`}
+                  {getTransactionText(transaction, users)}
 
                   <DeleteIcon
                     className="deleteIcon"
