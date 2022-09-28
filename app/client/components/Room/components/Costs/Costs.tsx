@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -23,13 +23,17 @@ interface IRoomCostsProps {
 }
 
 const Root = styled.div`
+  .content {
+    margin-top: 8px;
+  }
+
   .costItem {
-    &:not(:first-child) {
+    &.withDate:not(:first-child) {
       margin-top: 8px;
     }
   }
 
-  .content {
+  .costItemContent {
     display: flex;
     align-items: center;
   }
@@ -75,19 +79,23 @@ const Costs: React.FC<IRoomCostsProps> = (props) => {
     });
   }, [deleteRoomCost, roomId]);
 
+  const sortedCosts = useMemo(() => costs.reverse(), [costs]);
+
   return (
     <Root className={`${className} ${rootClassName}`}>
       <Heading level="4">Затраты</Heading>
 
-      <div>
-        {costs.length ?
-          costs.map((cost) => {
+      <div className="content">
+        {sortedCosts.length ?
+          sortedCosts.map((cost, index) => {
+            const withDate = index === 0 || !dayjs(cost.date).isSame(sortedCosts[index - 1].date, 'day');
+
             return (
               <div
                 key={cost.id}
-                className="costItem"
+                className={`costItem ${withDate ? 'withDate' : ''}`}
               >
-                {cost.date && (
+                {withDate && cost.date && (
                   <Heading
                     className="date"
                     level="6"
@@ -96,7 +104,7 @@ const Costs: React.FC<IRoomCostsProps> = (props) => {
                   </Heading>
                 )}
 
-                <div className="content">
+                <div className="costItemContent">
                   {getCostText(cost, users)}
 
                   <DeleteIcon

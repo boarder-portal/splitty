@@ -29,20 +29,24 @@ interface IRoomProps {
 }
 
 const Root = styled(Container)`
+  .addOperationButtons {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 8px;
+  }
+
   .addCostButton,
   .addTransactionButton {
     display: block;
-  }
-
-  .addTransactionButton {
-    margin-top: 8px;
   }
 
   .costs,
   .transactions,
   .balance,
   .history {
-    margin-top: 12px;
+    margin-top: 24px;
   }
 `;
 
@@ -112,19 +116,21 @@ const Room: React.FC<IRoomProps> = (props) => {
     <Root className={className}>
       <Heading level="1">{title}</Heading>
 
-      <Button
-        className="addCostButton"
-        onClick={openAddCostModal}
-      >
-        Добавить трату
-      </Button>
+      <div className="addOperationButtons">
+        <Button
+          className="addCostButton"
+          onClick={openAddCostModal}
+        >
+          Добавить трату
+        </Button>
 
-      <Button
-        className="addTransactionButton"
-        onClick={openAddTransactionModal}
-      >
-        Добавить перевод
-      </Button>
+        <Button
+          className="addTransactionButton"
+          onClick={openAddTransactionModal}
+        >
+          Добавить перевод
+        </Button>
+      </div>
 
       <Costs
         rootClassName="costs"

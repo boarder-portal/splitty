@@ -15,10 +15,18 @@ interface IHistoryProps {
 }
 
 const Root = styled.div`
+  .content {
+    margin-top: 8px;
+  }
+
   .item {
     &:not(:first-child) {
       margin-top: 8px;
     }
+  }
+
+  .itemDescription {
+    margin-top: 4px;
   }
 `;
 
@@ -41,13 +49,13 @@ const History: React.FC<IHistoryProps> = (props) => {
     <Root className={`${className} ${rootClassName}`}>
       <Heading level="4">История</Heading>
 
-      <div>
+      <div className="content">
         {items.map((item, index) => {
           return (
             <div key={index} className="item">
               <div>{HISTORY_ITEM_TYPE_TITLE[item.type]}</div>
 
-              <div>{isCostHistoryItem(item) ? getCostText(item.data, users) : getTransactionText(item.data, users)}</div>
+              <div className="itemDescription">{isCostHistoryItem(item) ? getCostText(item.data, users) : getTransactionText(item.data, users)}</div>
             </div>
           );
         })}

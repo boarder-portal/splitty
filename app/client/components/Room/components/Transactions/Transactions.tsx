@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
 import { useMutation } from '@apollo/react-hooks';
@@ -23,15 +23,19 @@ interface IRoomTransactionsProps {
 }
 
 const Root = styled.div`
+  .content {
+    margin-top: 8px;
+  }
+
   .transactionItem {
     line-height: 1.33;
 
-    &:not(:first-child) {
+    &.withDate:not(:first-child) {
       margin-top: 4px;
     }
   }
 
-  .content {
+  .transactionItemContent {
     display: flex;
     align-items: center;
   }
@@ -76,19 +80,23 @@ const Transactions: React.FC<IRoomTransactionsProps> = (props) => {
     });
   }, [deleteRoomTransaction, roomId]);
 
+  const sortedTransactions = useMemo(() => transactions.reverse(), [transactions]);
+
   return (
     <Root className={`${className} ${rootClassName}`}>
       <Heading level="4">Переводы</Heading>
 
-      <div>
-        {transactions.length ?
-          transactions.map((transaction) => {
+      <div className="content">
+        {sortedTransactions.length ?
+          sortedTransactions.map((transaction, index) => {
+            const withDate = index === 0 || !dayjs(transaction.date).isSame(sortedTransactions[index - 1].date, 'day');
+
             return (
               <div
                 key={transaction.id}
-                className="transactionItem"
+                className={`transactionItem ${withDate ? 'withDate' : ''}`}
               >
-                {transaction.date && (
+                {withDate && transaction.date && (
                   <Heading
                     className="date"
                     level="6"
@@ -97,7 +105,7 @@ const Transactions: React.FC<IRoomTransactionsProps> = (props) => {
                   </Heading>
                 )}
 
-                <div className="content">
+                <div className="transactionItemContent">
                   {getTransactionText(transaction, users)}
 
                   <DeleteIcon

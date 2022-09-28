@@ -124,6 +124,7 @@ const Balance: React.FC<IRoomBalanceProps> = (props) => {
 export default styled(Balance)`
   .tableWrapper {
     overflow: auto;
+    margin-top: 8px;
   }
 
   .table {
