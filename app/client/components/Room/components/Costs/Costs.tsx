@@ -48,7 +48,7 @@ export function getCostText(cost: ICost, users: IUser[]) {
   const fromUserName = getUserNameById(users, cost.from);
 
   return `${cost.value} ${fromUserName} -> ${
-    cost.to.map((id) => getUserNameById(users, id)).join(', ')
+    cost.to.length === users.length ? 'за всех' : cost.to.map((id) => getUserNameById(users, id)).join(', ')
   }${cost.description ? ` (${cost.description})` : ''}`;
 }
 
