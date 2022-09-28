@@ -24,10 +24,6 @@ const Root = styled.div`
       margin-top: 8px;
     }
   }
-
-  .itemDescription {
-    margin-top: 4px;
-  }
 `;
 
 const HISTORY_ITEM_TYPE_TITLE = {

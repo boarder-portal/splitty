@@ -1,8 +1,6 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { createGlobalStyle } from 'styled-components';
-import { Reset } from 'styled-reset';
-import { Normalize } from 'styled-normalize';
 
 import Home from 'client/components/Home/Home';
 import Room from 'client/components/Room/Room';
@@ -32,6 +30,8 @@ const GlobalStyle = createGlobalStyle`
 
   body {
     color: #333;
+    font-size: 15px;
+    line-height: 20px;
 
     * {
       font-family: Round, Helvetica, sans-serif;
@@ -41,6 +41,11 @@ const GlobalStyle = createGlobalStyle`
   h1 {
     font-size: 100%;
     margin: 0;
+  }
+
+  button,
+  input {
+    font-family: inherit;
   }
 
   a,
@@ -53,8 +58,6 @@ const GlobalStyle = createGlobalStyle`
 const App: React.FC = () => {
   return (
     <>
-      <Reset />
-      <Normalize />
       <GlobalStyle />
 
       <Header />
