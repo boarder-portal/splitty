@@ -85,7 +85,7 @@ const Home: React.FC<IHomeProps> = (props) => {
         <div className="myRooms">
           <Heading level="2">Мои комнаты</Heading>
 
-          {(window as any).rooms.map(({ id, title }: { id: string; title: string; }) => (
+          {(window as any).rooms.reverse().map(({ id, title }: { id: string; title: string }) => (
             <div className="myRoom" key={id}>
               <Link to={`/room/${id}`}>{title}</Link>
             </div>

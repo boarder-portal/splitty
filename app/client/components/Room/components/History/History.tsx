@@ -1,4 +1,4 @@
-import React  from 'react';
+import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
 import { EHistoryType, isCostHistoryItem, IUser, THistoryItem } from 'common/types/room';
@@ -41,12 +41,14 @@ const History: React.FC<IHistoryProps> = (props) => {
     users,
   } = props;
 
+  const sortedItems = useMemo(() => items.reverse(), [items]);
+
   return (
     <Root className={`${className} ${rootClassName}`}>
       <Heading level="4">История</Heading>
 
       <div className="content">
-        {items.map((item, index) => {
+        {sortedItems.map((item, index) => {
           return (
             <div key={index} className="item">
               <div>{HISTORY_ITEM_TYPE_TITLE[item.type]}</div>
