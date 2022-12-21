@@ -14,6 +14,7 @@ import getUserNameById from 'client/utilities/getUserNameById';
 import { HUMAN_DATE_FORMAT } from 'common/utilities/date/formats';
 
 import Heading from 'client/components/common/Heading/Heading';
+import useLastDaysList from 'client/components/Room/hooks/useLastDaysList';
 
 interface IRoomCostsProps {
   className?: string;
@@ -41,6 +42,12 @@ const Root = styled.div`
   .deleteIcon {
     margin-left: auto;
     padding-left: 4px;
+  }
+
+  .expander {
+    cursor: pointer;
+    color: cornflowerblue;
+    margin-top: 8px;
   }
 `;
 
@@ -81,14 +88,20 @@ const Costs: React.FC<IRoomCostsProps> = (props) => {
 
   const sortedCosts = useMemo(() => costs.reverse(), [costs]);
 
+  const {
+    visibleItems: visibleCosts,
+    expanded,
+    expand,
+  } = useLastDaysList(sortedCosts);
+
   return (
     <Root className={`${className} ${rootClassName}`}>
       <Heading level="4">Затраты</Heading>
 
       <div className="content">
-        {sortedCosts.length ?
-          sortedCosts.map((cost, index) => {
-            const withDate = index === 0 || !dayjs(cost.date).isSame(sortedCosts[index - 1].date, 'day');
+        {visibleCosts.length ?
+          visibleCosts.map((cost, index) => {
+            const withDate = index === 0 || !dayjs(cost.date).isSame(visibleCosts[index - 1].date, 'day');
 
             return (
               <div
@@ -117,6 +130,8 @@ const Costs: React.FC<IRoomCostsProps> = (props) => {
           }) :
           'Пока нет'
         }
+
+        {!expanded && visibleCosts.length !== sortedCosts.length && <div className="expander" onClick={expand}>Развернуть</div>}
       </div>
     </Root>
   );

@@ -14,6 +14,7 @@ import { HUMAN_DATE_FORMAT } from 'common/utilities/date/formats';
 import getUserNameById from 'client/utilities/getUserNameById';
 
 import Heading from 'client/components/common/Heading/Heading';
+import useLastDaysList from 'client/components/Room/hooks/useLastDaysList';
 
 interface IRoomTransactionsProps {
   className?: string;
@@ -43,6 +44,12 @@ const Root = styled.div`
   .deleteIcon {
     margin-left: auto;
     padding-left: 4px;
+  }
+
+  .expander {
+    cursor: pointer;
+    color: cornflowerblue;
+    margin-top: 8px;
   }
 `;
 
@@ -82,14 +89,20 @@ const Transactions: React.FC<IRoomTransactionsProps> = (props) => {
 
   const sortedTransactions = useMemo(() => transactions.reverse(), [transactions]);
 
+  const {
+    visibleItems: visibleTransactions,
+    expanded,
+    expand,
+  } = useLastDaysList(sortedTransactions);
+
   return (
     <Root className={`${className} ${rootClassName}`}>
       <Heading level="4">Переводы</Heading>
 
       <div className="content">
-        {sortedTransactions.length ?
-          sortedTransactions.map((transaction, index) => {
-            const withDate = index === 0 || !dayjs(transaction.date).isSame(sortedTransactions[index - 1].date, 'day');
+        {visibleTransactions.length ?
+          visibleTransactions.map((transaction, index) => {
+            const withDate = index === 0 || !dayjs(transaction.date).isSame(visibleTransactions[index - 1].date, 'day');
 
             return (
               <div
@@ -118,6 +131,8 @@ const Transactions: React.FC<IRoomTransactionsProps> = (props) => {
           }) :
           'Пока нет'
         }
+
+        {!expanded && visibleTransactions.length !== sortedTransactions.length && <div className="expander" onClick={expand}>Развернуть</div>}
       </div>
     </Root>
   );

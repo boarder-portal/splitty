@@ -6,6 +6,7 @@ import { EHistoryType, isCostHistoryItem, IUser, THistoryItem } from 'common/typ
 import Heading from 'client/components/common/Heading/Heading';
 import { getCostText } from 'client/components/Room/components/Costs/Costs';
 import { getTransactionText } from 'client/components/Room/components/Transactions/Transactions';
+import useLastDaysList from 'client/components/Room/hooks/useLastDaysList';
 
 interface IHistoryProps {
   className?: string;
@@ -23,6 +24,12 @@ const Root = styled.div`
     &:not(:first-child) {
       margin-top: 8px;
     }
+  }
+
+  .expander {
+    cursor: pointer;
+    color: cornflowerblue;
+    margin-top: 8px;
   }
 `;
 
@@ -43,12 +50,18 @@ const History: React.FC<IHistoryProps> = (props) => {
 
   const sortedItems = useMemo(() => items.reverse(), [items]);
 
+  const {
+    visibleItems,
+    expanded,
+    expand,
+  } = useLastDaysList(sortedItems);
+
   return (
     <Root className={`${className} ${rootClassName}`}>
       <Heading level="4">История</Heading>
 
       <div className="content">
-        {sortedItems.map((item, index) => {
+        {visibleItems.map((item, index) => {
           return (
             <div key={index} className="item">
               <div>{HISTORY_ITEM_TYPE_TITLE[item.type]}</div>
@@ -57,6 +70,8 @@ const History: React.FC<IHistoryProps> = (props) => {
             </div>
           );
         })}
+
+        {!expanded && visibleItems.length !== sortedItems.length && <div className="expander" onClick={expand}>Развернуть</div>}
       </div>
     </Root>
   );
