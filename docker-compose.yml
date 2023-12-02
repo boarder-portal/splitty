@@ -1,0 +1,10 @@
+version: "3"
+services:
+  node-app:
+    build: ./server
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./server/src:/app/src
+    environment:
+      - PORT=3000
