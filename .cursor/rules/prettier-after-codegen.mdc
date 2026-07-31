@@ -1,0 +1,14 @@
+---
+description: Run Prettier after generating or editing code
+alwaysApply: true
+---
+
+# Format with Prettier
+
+After generating or editing code, run Prettier before finishing:
+
+```bash
+npm run format
+```
+
+Do this as part of the normal verification flow (along with `npm run typecheck` and `npm run lint-errors` when those apply).

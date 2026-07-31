@@ -1,0 +1,27 @@
+---
+description: Use default exports for React components
+globs: "**/*.{ts,tsx}"
+alwaysApply: false
+---
+
+# Default exports for components
+
+Export React components with `export default`. Import them as default imports.
+
+Hooks, utilities, and constants stay as named exports in their own files under `hooks/` or `utils/` when used outside (see hooks-and-utils rule).
+
+```tsx
+// BAD
+export { Button }
+
+import { Button } from "@/components/Button/Button"
+
+// GOOD
+export default Button
+
+import Button from "@/components/Button/Button"
+
+// OK — non-component export next to the component when it is not a shared hook/util
+export default Button
+export { buttonVariants }
+```

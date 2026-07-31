@@ -1,0 +1,19 @@
+---
+description: Use only absolute @/ import paths
+globs: "**/*.{ts,tsx}"
+alwaysApply: false
+---
+
+# Absolute imports
+
+Use only absolute imports via the `@/` alias. Do not use relative paths (`./` or `../`).
+
+```tsx
+// BAD
+import { ThemeHotkey } from "./components/ThemeHotkey/ThemeHotkey"
+import { UserName } from "../UserName/UserName"
+
+// GOOD
+import { ThemeHotkey } from "@/components/ThemeProvider/components/ThemeHotkey/ThemeHotkey"
+import { UserName } from "@/app/UserGreeting/components/UserName/UserName"
+```

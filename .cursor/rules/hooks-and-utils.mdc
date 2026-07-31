@@ -1,0 +1,32 @@
+---
+description: Place shared hooks and utils in hooks/ or utils/ folders
+globs: "**/*.{ts,tsx}"
+alwaysApply: false
+---
+
+# Hooks and utils placement
+
+Hooks and utilities that are (or will be) used outside their defining module live in separate files under `hooks/` or `utils/`.
+
+- If the hook/util is tied to one feature or component, colocate it next to that component:
+  `ComponentName/hooks/useSomething.ts`, `ComponentName/utils/formatSomething.ts`.
+- If it looks useful in multiple places, put it in a more general folder:
+  `hooks/useSomething.ts`, `lib/utils/...` / top-level `utils/` as the project already uses.
+- Do not export hooks or shared utils from the component file itself.
+- Helpers used only inside one file stay in that file and are not exported.
+- Hook files are named after the hook (`useTelegram.ts`). Util files use camelCase names matching the util.
+
+```tsx
+// BAD — hook exported from the component module
+// TelegramProvider.tsx
+export default TelegramProvider
+export { useTelegram }
+
+import { useTelegram } from "@/components/TelegramProvider/TelegramProvider"
+
+// GOOD — hook in a hooks folder next to the feature
+// TelegramProvider/hooks/useTelegram.ts
+export { useTelegram }
+
+import { useTelegram } from "@/components/TelegramProvider/hooks/useTelegram"
+```

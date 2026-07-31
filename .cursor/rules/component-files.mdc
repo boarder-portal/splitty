@@ -1,0 +1,39 @@
+---
+description: Component folders, PascalCase files, nested local components
+globs: "**/*.{ts,tsx}"
+alwaysApply: false
+---
+
+# Component files and folders
+
+- One React component per file.
+- Each component lives in a same-named folder with a same-named PascalCase file:
+  `UserGreeting/UserGreeting.tsx`.
+- If component B is used only by component A, put B under
+  `A/components/B/B.tsx`.
+- Do not put multiple components in the same file.
+- Non-component helpers used only by that component may stay in the same file without export.
+- After adding a shadcn component via CLI, move it into this structure (folder + PascalCase file + default export).
+
+```text
+Button/
+  Button.tsx
+
+UserGreeting/
+  UserGreeting.tsx
+  components/
+    UserName/
+      UserName.tsx
+```
+
+```tsx
+// BAD
+components/ui/button.tsx      // kebab-case, flat ui path
+app/UserGreeting.tsx          // file without folder
+app/UserName.tsx              // sibling of parent, not nested
+
+// GOOD
+components/Button/Button.tsx
+app/UserGreeting/UserGreeting.tsx
+app/UserGreeting/components/UserName/UserName.tsx
+```
