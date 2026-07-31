@@ -1,0 +1,26 @@
+---
+description: Mantine UI stack conventions
+globs: "**/*.{ts,tsx}"
+alwaysApply: false
+---
+
+# Mantine
+
+- UI stack: Mantine (`@mantine/core`, `@mantine/hooks`, `@mantine/form`, `@mantine/notifications`).
+- Icons: `@tabler/icons-react`.
+- Do not use Tailwind utility classes for styling or layout.
+- Use Mantine layout primitives (`Stack`, `Group`, `Box`, `Center`, `Grid`) and component props.
+- Import UI primitives only from local wrappers in `@/components/ui/...`.
+- Component defaults live in `lib/theme.ts` (`theme.components`), not in feature code.
+- Theme: Mantine is the source of truth. Telegram only toggles `light`/`dark` via `TelegramColorSchemeSync`.
+- Primary color key: `primary` (pastel blue palette in `lib/theme.ts`).
+
+```tsx
+// BAD
+import { Button } from '@mantine/core'
+<div className="flex gap-4 p-6">
+
+// GOOD
+import Button from '@/components/ui/Button/Button'
+<Stack gap="md" p="md">
+```

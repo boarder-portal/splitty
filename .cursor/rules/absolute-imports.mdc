@@ -14,6 +14,6 @@ import { ThemeHotkey } from "./components/ThemeHotkey/ThemeHotkey"
 import { UserName } from "../UserName/UserName"
 
 // GOOD
-import { ThemeHotkey } from "@/components/ThemeProvider/components/ThemeHotkey/ThemeHotkey"
-import { UserName } from "@/app/UserGreeting/components/UserName/UserName"
+import TelegramColorSchemeSync from "@/components/providers/TelegramProvider/components/TelegramColorSchemeSync/TelegramColorSchemeSync"
+import UserName from "@/app/UserGreeting/components/UserName/UserName"
 ```

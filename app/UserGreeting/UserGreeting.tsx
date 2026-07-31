@@ -1,23 +1,20 @@
 'use client';
 
 import UserName from '@/app/UserGreeting/components/UserName/UserName';
-import { useTelegram } from '@/components/TelegramProvider/hooks/useTelegram';
+import { useTelegram } from '@/components/providers/TelegramProvider/hooks/useTelegram';
+import Center from '@/components/ui/Center/Center';
+import Stack from '@/components/ui/Stack/Stack';
+import Text from '@/components/ui/Text/Text';
 
 function UserGreeting() {
   const { isReady, isTelegram } = useTelegram();
 
   return (
-    <main className="flex min-h-svh items-center justify-center p-6">
-      <div className="max-w-md text-center text-base leading-relaxed">
-        {isReady ? (
-          isTelegram ? (
-            <UserName />
-          ) : (
-            <p className="text-muted-foreground">Открой приложение в Telegram</p>
-          )
-        ) : null}
-      </div>
-    </main>
+    <Center component="main" mih="100svh" p="md">
+      <Stack maw={448} ta="center" gap="sm">
+        {isReady ? isTelegram ? <UserName /> : <Text c="dimmed">Открой приложение в Telegram</Text> : null}
+      </Stack>
+    </Center>
   );
 }
 

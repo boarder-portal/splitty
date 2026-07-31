@@ -2,6 +2,8 @@
 
 import { useLaunchParams } from '@tma.js/sdk-react';
 
+import Title from '@/components/ui/Title/Title';
+
 function UserName() {
   const launchParams = useLaunchParams();
   const firstName = launchParams.tgWebAppData?.user?.first_name;
@@ -10,7 +12,11 @@ function UserName() {
     return null;
   }
 
-  return <h1 className="text-2xl font-medium tracking-tight">Привет, {firstName}</h1>;
+  return (
+    <Title order={2} fw={500}>
+      Привет, {firstName}
+    </Title>
+  );
 }
 
 export default UserName;

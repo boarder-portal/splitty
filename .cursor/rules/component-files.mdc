@@ -13,27 +13,39 @@ alwaysApply: false
   `A/components/B/B.tsx`.
 - Do not put multiple components in the same file.
 - Non-component helpers used only by that component may stay in the same file without export.
-- After adding a shadcn component via CLI, move it into this structure (folder + PascalCase file + default export).
+- Shared components live under grouped roots:
+  - `components/ui/` — Mantine wrappers (thin re-exports)
+  - `components/providers/` — app providers
+- Mantine primitives used in the app get a local wrapper on first use:
+  `components/ui/Button/Button.tsx` with a thin re-export from `@mantine/core`.
+  Feature code imports only `@/components/...`, never `@mantine/core` directly.
 
 ```text
-Button/
-  Button.tsx
+components/
+  ui/
+    Button/
+      Button.tsx
+  providers/
+    TelegramProvider/
+      TelegramProvider.tsx
 
-UserGreeting/
-  UserGreeting.tsx
-  components/
-    UserName/
-      UserName.tsx
+app/
+  UserGreeting/
+    UserGreeting.tsx
+    components/
+      UserName/
+        UserName.tsx
 ```
 
 ```tsx
 // BAD
-components/ui/button.tsx      // kebab-case, flat ui path
+import { Button } from '@mantine/core'
 app/UserGreeting.tsx          // file without folder
 app/UserName.tsx              // sibling of parent, not nested
+components/Button/Button.tsx  // flat under components/
 
 // GOOD
-components/Button/Button.tsx
+import Button from '@/components/ui/Button/Button'
 app/UserGreeting/UserGreeting.tsx
 app/UserGreeting/components/UserName/UserName.tsx
 ```

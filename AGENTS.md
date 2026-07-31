@@ -6,4 +6,4 @@ This version has breaking changes — APIs, conventions, and file structure may 
 
 # Telegram Mini App
 
-Контекст по текущему каркасу Mini App: [docs/telegram-mini-app.md](docs/telegram-mini-app.md).
+Контекст по текущему каркасу Mini App: [docs/telegram-mini-app.md](docs/telegram-mini-app.md). UI-стек: Mantine (см. `.cursor/rules/mantine.mdc`).

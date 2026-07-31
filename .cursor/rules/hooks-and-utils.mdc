@@ -22,11 +22,11 @@ Hooks and utilities that are (or will be) used outside their defining module liv
 export default TelegramProvider
 export { useTelegram }
 
-import { useTelegram } from "@/components/TelegramProvider/TelegramProvider"
+import { useTelegram } from "@/components/providers/TelegramProvider/TelegramProvider"
 
 // GOOD — hook in a hooks folder next to the feature
 // TelegramProvider/hooks/useTelegram.ts
 export { useTelegram }
 
-import { useTelegram } from "@/components/TelegramProvider/hooks/useTelegram"
+import { useTelegram } from "@/components/providers/TelegramProvider/hooks/useTelegram"
 ```

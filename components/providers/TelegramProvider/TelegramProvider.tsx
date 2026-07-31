@@ -1,9 +1,10 @@
 'use client';
 
-import { emitEvent, init, isTMA, miniApp, mockTelegramEnv, UnknownEnvError } from '@tma.js/sdk-react';
+import { emitEvent, init, isTMA, miniApp, mockTelegramEnv, themeParams, UnknownEnvError } from '@tma.js/sdk-react';
 import { useEffect, useState, type ReactNode } from 'react';
 
-import { TelegramContext } from '@/components/TelegramProvider/TelegramContext';
+import TelegramColorSchemeSync from '@/components/providers/TelegramProvider/components/TelegramColorSchemeSync/TelegramColorSchemeSync';
+import { TelegramContext } from '@/components/providers/TelegramProvider/TelegramContext';
 
 let didStartSdk = false;
 
@@ -26,25 +27,25 @@ function hasPostEventBridge() {
 }
 
 function mockDevTelegramEnv() {
-  const themeParams = {
-    accent_text_color: '#6ab2f2',
-    bg_color: '#17212b',
-    button_color: '#5288c1',
+  const mockThemeParams = {
+    accent_text_color: '#2481cc',
+    bg_color: '#ffffff',
+    button_color: '#2481cc',
     button_text_color: '#ffffff',
-    destructive_text_color: '#ec3942',
-    header_bg_color: '#17212b',
-    hint_color: '#708499',
-    link_color: '#6ab3f3',
-    secondary_bg_color: '#232e3c',
-    section_bg_color: '#17212b',
-    section_header_text_color: '#6ab3f3',
-    subtitle_text_color: '#708499',
-    text_color: '#f5f5f5',
+    destructive_text_color: '#cc2929',
+    header_bg_color: '#ffffff',
+    hint_color: '#999999',
+    link_color: '#2481cc',
+    secondary_bg_color: '#f1f1f1',
+    section_bg_color: '#ffffff',
+    section_header_text_color: '#2481cc',
+    subtitle_text_color: '#999999',
+    text_color: '#000000',
   } as const;
 
   mockTelegramEnv({
     launchParams: {
-      tgWebAppThemeParams: themeParams,
+      tgWebAppThemeParams: mockThemeParams,
       tgWebAppData: new URLSearchParams([
         [
           'user',
@@ -64,7 +65,7 @@ function mockDevTelegramEnv() {
     onEvent(event) {
       if (event.name === 'web_app_request_theme') {
         return emitEvent('theme_changed', {
-          theme_params: themeParams,
+          theme_params: mockThemeParams,
         });
       }
 
@@ -122,6 +123,7 @@ function TelegramProvider({ children }: { children: ReactNode }) {
 
     try {
       init();
+      themeParams.mount();
       miniApp.ready.ifAvailable();
       setIsTelegram(true);
     } catch (error) {
@@ -135,7 +137,12 @@ function TelegramProvider({ children }: { children: ReactNode }) {
     setIsReady(true);
   }, []);
 
-  return <TelegramContext.Provider value={{ isReady, isTelegram }}>{children}</TelegramContext.Provider>;
+  return (
+    <TelegramContext.Provider value={{ isReady, isTelegram }}>
+      <TelegramColorSchemeSync />
+      {children}
+    </TelegramContext.Provider>
+  );
 }
 
 export default TelegramProvider;

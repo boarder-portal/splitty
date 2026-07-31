@@ -14,14 +14,14 @@ Hooks, utilities, and constants stay as named exports in their own files under `
 // BAD
 export { Button }
 
-import { Button } from "@/components/Button/Button"
+import { Button } from "@/components/ui/Button/Button"
 
 // GOOD
 export default Button
 
-import Button from "@/components/Button/Button"
+import Button from "@/components/ui/Button/Button"
 
 // OK — non-component export next to the component when it is not a shared hook/util
 export default Button
-export { buttonVariants }
+export type { ButtonProps }
 ```

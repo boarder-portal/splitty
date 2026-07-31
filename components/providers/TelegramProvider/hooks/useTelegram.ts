@@ -2,7 +2,7 @@
 
 import { useContext } from 'react';
 
-import { TelegramContext } from '@/components/TelegramProvider/TelegramContext';
+import { TelegramContext } from '@/components/providers/TelegramProvider/TelegramContext';
 
 function useTelegram() {
   const value = useContext(TelegramContext);

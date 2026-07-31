@@ -1,16 +1,10 @@
-import { Geist_Mono, Inter } from 'next/font/google';
+import '@mantine/core/styles.css';
+import '@mantine/notifications/styles.css';
 
-import './globals.css';
-import TelegramProvider from '@/components/TelegramProvider/TelegramProvider';
-import ThemeProvider from '@/components/ThemeProvider/ThemeProvider';
-import { cn } from '@/lib/utils';
+import { ColorSchemeScript, mantineHtmlProps } from '@mantine/core';
 
-const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
-
-const fontMono = Geist_Mono({
-  subsets: ['latin'],
-  variable: '--font-mono',
-});
+import MantineProvider from '@/components/providers/MantineProvider/MantineProvider';
+import TelegramProvider from '@/components/providers/TelegramProvider/TelegramProvider';
 
 export default function RootLayout({
   children,
@@ -18,15 +12,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="ru"
-      suppressHydrationWarning
-      className={cn('antialiased', fontMono.variable, 'font-sans', inter.variable)}
-    >
+    <html lang="ru" {...mantineHtmlProps}>
+      <head>
+        <ColorSchemeScript defaultColorScheme="light" />
+      </head>
       <body>
-        <ThemeProvider>
+        <MantineProvider>
           <TelegramProvider>{children}</TelegramProvider>
-        </ThemeProvider>
+        </MantineProvider>
       </body>
     </html>
   );
